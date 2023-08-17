@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "lib": ["es2018", "esnext.asynciterable"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "sourceMap": true,
+    "types" : ["node", "lodash", "express"],
+    "typeRoots": [
+      "src/customTypings/express/index.ts",
+      "node_modules/@types"
+    ]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules/**"]
+}

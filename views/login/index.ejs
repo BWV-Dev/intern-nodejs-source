@@ -1,0 +1,59 @@
+<div class="wrapper">
+  <form id="adminLoginForm" class="p-3 mt-2">
+    <div class="form-field" id="emailField">
+      <label for="email">Email</label>
+      <div class="d-flex align-items-center">
+        <input
+          type="text"
+          name="email"
+          id="email"
+          placeholder=""
+          data-error="#emailMsg"
+          value=""
+          autocomplete="off"
+        />
+        <i
+          class="fa-sharp fa-solid fa-circle-exclamation"
+          id="checkEmailValidateIcon"
+          style="display: none;"
+        ></i>
+      </div>
+    </div>
+    <div
+      class="alert alert-danger alert-dismissible fade show justify-content-center"
+      id="emailMsg"
+      style="display: none;"
+    ></div>
+    
+    <div class="form-field" id="passwordField">
+      <label for="password">Password</label>
+      <div class="d-flex align-items-center">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder=""
+          data-error="#passwordMsg"
+          value=""
+          autocomplete="off"
+        />
+        <i
+          class="fa-sharp fa-solid fa-circle-exclamation"
+          id="checkPasswordValidateIcon"
+          style="display: none;"
+        ></i>
+      </div>
+    </div>
+    <div
+      class="alert alert-danger alert-dismissible fade show justify-content-center"
+      id="passwordMsg"
+      style="display: none;"
+    ></div>
+
+    <div id="errorLoginMsg"></div>
+
+    <button class="btn" id="signInBtn">Login</button>
+  </form>
+
+  
+</div>

@@ -1,0 +1,7 @@
+.footer {
+    background-color: #fff;
+}
+
+.footer div {
+    color: var(--blue-color) !important;
+}
