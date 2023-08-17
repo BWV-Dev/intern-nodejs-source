@@ -1,0 +1,70 @@
+.sidenav li {
+    list-style-type: none;
+}
+.sidenav {
+    height: 100%;
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    background-color: #fcf5f6;
+    overflow-x: hidden;
+    transition: ease 0.5s;
+    padding-top: 60px;
+    -webkit-box-shadow: 2px 0px 25px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 0px 25px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 0px 25px 0px rgba(0,0,0,0.75);
+    width: 310px;
+}
+
+.sidenav a {
+    font-size: 15px;
+	cursor: pointer;
+    color: #999999;
+    text-decoration: none;
+}
+
+.sidenav .sidenav a .left-menu-item-label {
+    margin-left: 15px;
+}
+
+.sidenav .left-menu-item .sub-left-menu-item {
+    padding-left: 20px !important;
+}
+
+.sidenav a.d-inline:last-child {
+    padding: 0;
+}
+
+.sidenav .left-menu-item:first-child {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sidenav .left-menu-item:first-child .menu-item-header{
+    margin: 5px 0 !important;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media (max-width: 768px) {
+    .sidenav .left-menu-item:not(:last-child) {
+		padding-left: 15px;
+		margin-bottom: 15px;
+	}
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
