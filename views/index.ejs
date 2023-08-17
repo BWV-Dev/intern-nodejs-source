@@ -1,0 +1,12 @@
+<!-- Main content -->
+<div class="contentInner">
+  <!--簡単検索-->
+  <section>
+    <% if (typeof message !== 'undefined') { %>
+      <%- include(`./common/message_${message.type}`, message) %>
+    <% } %>
+  </section>
+</div>
+
+<%- contentFor('pageTitle') %>
+Index

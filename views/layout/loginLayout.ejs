@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : '' %></title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" type="text/css" href="/asset/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/asset/css/custom/style.css">
+  <link rel="stylesheet" type="text/css" href="/asset/font/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+  <link rel="stylesheet" type="text/css" href="/asset/font/pe-icon-7-stroke/css/helper.css">
+  
+<body class="hold-transition login-page">
+
+  <%- body %>
+  <!-- jQuery 3 -->
+  <script type="text/javascript" src="/asset/js/lib/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="/asset/js/lib/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="/asset/js/lib/localization/messages_ja.js"></script>
+  <script type="text/javascript" src="/asset/js/site/user/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="/asset/css/pages/account/login.css">
+<div class="login-form">
+  <form method="post" id="loginFrm">
+    <div class="form-group">
+      <label class="m-bottom-10">ユーザー名</label>
+      <input type="text" class="form-control p-left-10" name="username" value=<%= username%>>
+    </div>
+    <div class="form-group">
+      <label class="m-bottom-10">パスワード</label>
+      <input type="password" class="form-control p-left-10" name="password">
+    </div>
+    <p id="errorMessage" class="error-message m-bottom-10"><%- message %></p>
+    <div class="form-group text-center m-bottom-20">
+      <button type="submit">ログイン</button>
+    </div>
+  </form>
+</div>
+<%- contentFor('pageTitle') %>
+ログイン

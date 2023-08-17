@@ -1,0 +1,129 @@
+.login-background {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: #d2d6de;
+}
+
+.login-background ~ .login-box {
+  width: 420px;
+  margin: 0;
+  padding: 20px;
+  position: absolute;
+  top: 40%;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+.login-box-body {
+  font-size: 14px;
+  padding: 30px 20px;
+}
+
+.error-message {
+  font-size: 13px;
+  color: #f00;
+}
+
+.float-right {
+  float: right;
+}
+
+label.error {
+  font-size: 13px;
+  font-weight: 400;
+  color: #f00;
+}
+.has-error {
+  font-size: 13px;
+  font-weight: 400;
+  color: #f00;
+}
+
+.top0 {
+  top: 0 !important;
+}
+
+.floatR {
+  float: right;
+  width: 75%;
+}
+
+.margin-top {
+  margin-top: 5px;
+}
+
+.login-form {
+  width: 360px;
+  margin: 50px auto;
+}
+
+.login-form form {
+  margin-bottom: 15px;
+  background: #fff;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+}
+
+.login-form h2 {
+  margin: 0 0 15px;
+}
+
+.form-control,
+.btn {
+  min-height: 38px;
+  border-radius: 2px;
+}
+
+
+button {
+  display: inline-block;
+  overflow: hidden;
+  height: 30px;
+  padding: 0 1em;
+  color: #BF474D;
+  font-size: 14px;
+  line-height: 30px;
+  border: 1px solid #BF474D;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: #fff;
+  font-weight: bold;
+}
+
+body {
+  font-size: 13px;
+  position: static !important;
+  min-height: 80% !important;
+}
+
+.m-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.m-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.m-right-5 {
+  margin-right: 5px;
+}
+
+.p-left-10 {
+  padding-left: 10px !important;
+}
+
+label {
+  cursor: default;
+}
+
+.help-block.has-error {
+	margin-left: 0px !important;
+}
+
+body {
+  background-color: #fcfcfc;
+}

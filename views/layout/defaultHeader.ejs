@@ -1,0 +1,26 @@
+<!-- Header -->
+<header>
+  <div id="header">
+    <header class="navbar navbar-expand-md fixed-top">
+      <div class="user-info d-none d-lg-flex align-items-center ml-3 item-icon-header">
+          <div class="ml-15px text-header header-username">
+            <% if (loginUser.name) { %>
+              <ul class="navbar-nav">
+                <li class="dropdown cursor-pointer">
+                  <a id="navbarDropdownUser" data-toggle="dropdown">
+                      <%= loginUser.name %>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownUser" style="padding: 5px 7px !important; min-width: 0 !important;">
+                    <a href="/logout?redirect=<%= logoutRedirect %>" type="button"  class="button btn-logout" style="color: #BF474D;margin-right: 0;">ログアウト</a>
+                  </div>
+                </li>
+              </ul>
+            <% } else { %>
+              <a href="/login" style="color: #01a2e7; line-height: 40px; text-decoration: none;">ログイン</a>
+            <% } %>
+          </div>
+      </div>
+  </header>
+
+  </div>
+</header>

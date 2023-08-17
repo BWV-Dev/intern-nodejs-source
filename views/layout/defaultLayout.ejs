@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : '' %></title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <link rel="stylesheet" type="text/css" href="/asset/css/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/asset/css/datatable/datatables.min.css">
+  <link rel="stylesheet" type="text/css" href="/asset/css/bootstrap/dataTables.bootstrap4.css">
+  <link rel="stylesheet" type="text/css" href="/asset/css/bootstrap/responsive.bootstrap4.css">
+  <link rel="stylesheet" type="text/css" href="/asset/css/datepicker/bootstrap-datepicker.css">
+  <link rel="stylesheet" type="text/css" href="/asset/css/datepicker/bootstrap-datetimepicker.min.css">
+  <link rel="stylesheet" type="text/css" href="/asset/css/custom/style.css">
+  <link rel="stylesheet" href="/asset/font/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+  <link rel="stylesheet" href="/asset/font/pe-icon-7-stroke/css/helper.css">
+  
+  <!-- Font awesome-->
+  <link rel="stylesheet" href="/asset/css/font-awesome/css/font-awesome.min.css">
+
+  <!-- jQuery 3 -->
+  <script type="text/javascript" src="/asset/js/lib/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+  <%- include('./defaultHeader') %>
+
+  <section class="body d-flex">
+    <div id="left-menu">
+      <%- include('./defaultLeftMenu') %>
+    </div>
+    <div class="content">
+      <%- body %>
+    </div>
+  </section>
+
+  <%- include('./defaultFooter') %>
+
+  <%- include('./defaultScripts') %>
+
+  <script type="text/javascript" src="/asset/js/custom/custom.js"></script>
+
+  <%- script %>
+</body>
+
+</html>
