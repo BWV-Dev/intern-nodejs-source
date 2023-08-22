@@ -1,0 +1,127 @@
+<% if(loginUser.name) { %>
+
+    <% if(successMessage) { %>
+        <div id="myAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong><%= successMessage %></strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% } %>
+
+    <% if(errorMessages.length > 0) { %>
+        <% if(errorMessages.length > 1 && typeof errorMessages !== 'string') {%>
+          <% if(errorMessages.length > 2) {%>
+            <div class="messages" id="messages">
+              <% for (let error of errorMessages) { %>
+                <div class="alert alert-danger" role="alert" ><%= error %></div>
+              <% } %>
+            </div>
+          <% } else { %>
+            <% for (let error of errorMessages) { %>
+              <div class="alert alert-danger" role="alert" ><%= error %></div>
+            <% } %>
+          <% } %>
+        <% } else { %>
+          <div class="alert alert-danger" role="alert" ><%= errorMessages %></div>
+        <% } %>
+      <% } %>
+
+    <div class="card-body ml-3">
+        <div class="row">
+            <div class="col">
+                <div class="row my-2">
+                    <div class="col"></span>
+                </div>
+                <div class="row my-2">
+                    <div class="col">
+                        <% if (numOfResults > 10) { %>
+                            <div class="pagination-container">
+                                <button onclick="gotoPage(1)" <%= page==1? 'disabled' : ''%>>最初</button>
+
+                                <% if (page > 1) {%>
+                                    <button onclick="gotoPage('<%- page - 1 %>')" <%= page==1? 'disabled' : ''%>>前へ</button>
+                                <%} else {%>
+                                    <button onclick="gotoPage(1)" <%= page==1? 'disabled' : ''%>>前へ</button>                      
+                                <% } %>
+                    
+                                <% if(pages.startPage != 1) { %>
+                                    <button onclick="gotoPage('<%- pages.startPage - 1 %>')" <%= page==1? 'disabled' : ''%>>...</button>
+                                <% } %>
+
+                                <% for(let i = pages.startPage; i <= pages.endPage; i++) {%>
+                                    <button onclick="gotoPage('<%= i %>')" <%= page==i? 'disabled' : ''%>><%= i %> </button>
+                                <% } %>
+
+                                <% if(pages.endPage != numOfPages) { %>
+                                    <button onclick="gotoPage('<%- pages.endPage + 1 %>')" <%= page==numOfPages? 'disabled' : ''%>>...</button>
+                                <% } %>
+                    
+                                <% if (page >=  numOfPages) {%>
+                                    <button onclick="gotoPage('<%= numOfPages %>')" <%= page==numOfPages? 'disabled' : ''%>>次へ</button>
+                                <%} else {%>
+                                    <button onclick="gotoPage('<%- page + 1 %>')" <%= page==numOfPages? 'disabled' : ''%>>次へ</button>                      
+                                <% } %>
+
+                                <button onclick="gotoPage('<%= numOfPages %>')" <%= page==numOfPages? 'disabled' : ''%>>最終</button>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+      
+        <table class="table fixed table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Group Name</th>
+                <th scope="col">Group Note</th>
+                <th scope="col">Group Leader</th>
+                <th scope="col">Floor Number</th>
+                <th scope="col">Created Date</th>
+                <th scope="col">Updated Date</th>
+                <th scope="col">Deleted Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (let group of groups) { %>
+            <tr>
+                <th scope="row"><%= group.id %></th>
+                <td><%= group.name %></td>
+                <td><%= group.note %></td>
+                <td><%= group.user? group.user?.name : '' %></td>
+                <td><%= group.groupFloorNumber %></td>
+                <td><%= toStringDate(group.createdDate, 'DD/MM/YYYY') %></td>
+                <td><%= toStringDate(group.updatedDate, 'DD/MM/YYYY') %></td>
+                <td><%= toStringDate(group.deletedDate, 'DD/MM/YYYY') %></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+        <div class="parent-container">
+            <div><%= message %></div>
+          </div>
+
+</div>
+<div class="row">
+    <form id="searchFrm">
+        <div class="mt-5">
+            <button class="btn-user" id="importButton" name="importButton" type="button">Import CSV</button>
+            <span id="fileError" class="error"></span>
+            <input type="file"  id="fileCSV" name="fileCSV" style="visibility: hidden"></input>
+        </div>
+    </form>
+
+</div>
+</div>
+<%}%>
+
+<%- contentFor('pageTitle') %>
+Group List
+
+<%- contentFor('headerTitle') %>
+Group List
+
+<script type="text/javascript" src="/asset/js/site/group/list.js"></script>

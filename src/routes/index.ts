@@ -8,6 +8,8 @@ import sessionMiddleWare from '../middlewares/session';
 import userMiddleware from '../middlewares/user';
 import authRouter from './auth';
 import viewHelper from '../middlewares/viewHelper';
+import userRouter from './user';
+import groupRouter from './group';
 
 const router = Router();
 
@@ -16,6 +18,8 @@ router.use(userMiddleware);
 router.use('/', authRouter);
 router.use(auth);
 router.use(viewHelper);
+router.use('/user', userRouter);
+router.use('/group', groupRouter);
 
 router.get('/', (req, res) => {
   res.render('index');

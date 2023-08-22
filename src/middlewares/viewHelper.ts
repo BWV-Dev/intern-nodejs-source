@@ -412,7 +412,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     format?: string,
   ): string | undefined {
     format = format || 'YYYY/MM/DD';
-    return date ? moment(date).format(format) : date;
+    return date
+      ? moment(date)
+          .add(1, 'day')
+          .format(format)
+      : date;
   }
   res.locals.toStringDate = toStringDate;
 
@@ -429,6 +433,26 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     return date ? moment(date).format(format) : date;
   }
   res.locals.toStringDatetime = toStringDatetime;
+
+  /**
+   * Display position of user
+   * @param format
+   * @param date
+   */
+  function userPosition(positionId?: string | number): string | undefined {
+    return positionId == 0
+      ? 'Director'
+      : positionId == 1
+      ? 'Group Leader'
+      : positionId == 2
+      ? 'Leader'
+      : positionId == 3
+      ? 'Member'
+      : '';
+  }
+  res.locals.userPosition = userPosition;
+
+  res.locals.messages = messages;
 
   next();
 };
@@ -473,3 +497,48 @@ export const valueToText = (
  */
 export const emptyStringAsNull = (value: string) =>
   value.length > 0 ? value : null;
+
+/**
+ * return [] if number of page > 0
+ * @param value number
+ */
+export const numberOfPages = (totalCount: number, currentPage: number) => {
+  const numOfPages = Math.ceil(totalCount / 10);
+
+  let startPage = 1;
+  let endPage = 0;
+
+  if (numOfPages <= 5) {
+    endPage = numOfPages;
+  } else {
+    if (currentPage - 2 <= 0) {
+      startPage = 1;
+    } else {
+      if (currentPage + 2 >= numOfPages) {
+        startPage = numOfPages - 4;
+      } else {
+        startPage = currentPage - 2;
+      }
+    }
+
+    startPage + 4 > numOfPages
+      ? (endPage = numOfPages)
+      : (endPage = startPage + 4);
+  }
+
+  const pages = {
+    startPage: startPage,
+    endPage: endPage,
+  };
+
+  return pages;
+};
+
+export const isBigInt = (value: string): boolean => {
+  try {
+    BigInt(value);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};

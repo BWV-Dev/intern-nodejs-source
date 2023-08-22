@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import moment from 'moment-timezone';
 import Big from 'big.js';
+import {NextFunction, Request, Response} from 'express';
 
 /**
  * Format date
@@ -97,4 +98,16 @@ export function getCurrentSystemDatetime() {
   return moment()
     .tz('Asia/Tokyo')
     .format('YYYY/MM/DD HH:mm:ss');
+}
+
+export function nextWrapper(
+  mainFunction: (req: Request, res: Response, next?: NextFunction) => any,
+) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await mainFunction(req, res, next);
+    } catch (err) {
+      next(err);
+    }
+  };
 }

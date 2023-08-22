@@ -2,7 +2,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  UpdateDateColumn,
+  CreateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -10,30 +10,21 @@ export class Base {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('tinyint')
-  deleted: number;
+  @CreateDateColumn({
+    type: 'date',
+    name: 'created_date',
+  })
+  createdDate: Date;
 
   @Column({
-    type: 'varchar',
-    length: 100,
-    name: 'created_by',
+    type: 'date',
+    name: 'updated_date',
   })
-  createdBy: string;
+  updatedDate: Date;
 
   @Column({
-    name: 'created_at',
+    type: 'date',
+    name: 'deleted_date',
   })
-  createdAt: Date;
-
-  @Column({
-    type: 'varchar',
-    length: 100,
-    name: 'updated_by',
-  })
-  updatedBy: string;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-  })
-  updatedAt: Date;
+  deletedDate: Date;
 }

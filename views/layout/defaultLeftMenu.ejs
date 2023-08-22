@@ -1,4 +1,4 @@
-<% if (loginUser.name) { %>
+<% if (loginUser) { %>
 <i class="btn-toggle-hamburger-menu pe-7s-menu pe-2x d-block d-lg-none"></i>
 <div class="overlay"></div>
 <div class="left-menu order-2 order-lg-0">
@@ -12,16 +12,22 @@
     </div>
   </div>
   <div class="left-menu-item left-menu-item-first">
-    <a href="/">
-      <i class="pe-7s-box2"></i>
-      <span class="left-menu-item-label">TOP</span>
+    <a href="/user">
+      <span class="left-menu-item-label">User List</span>
       </label>
   </div>
- 
+  <% if (loginUser.positionId == 0) { %>
+    <div class="left-menu-item left-menu-item-first">
+      <a href="/group">
+        <span class="left-menu-item-label">Group List</span>
+        </label>
+    </div>  
+  <% } %>
+  
   <div class="left-menu-item display-none" id="logout-menu-item">
     <a href="/logout?redirect=<%= logoutRedirect %>" >
       <i class="fa fa-sign-out"></i>
-      <span class="left-menu-item-label">ログアウト</span>
+      <span class="left-menu-item-label">Logout</span>
     </a>
   </div>
 </div>

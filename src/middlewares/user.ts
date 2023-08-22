@@ -25,11 +25,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     res.locals.loginUser = {};
     res.locals.logoutRedirect = {};
 
-    if (req.xhr) {
-      res.status(UNAUTHORIZED).json({success: false, message: 'unauthorized'});
-    } else {
-      next();
-    }
+    next();
   } else {
     req.user = {
       ...userSession,

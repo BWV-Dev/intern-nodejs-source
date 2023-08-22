@@ -1,0 +1,181 @@
+<% if (loginUser) { %>
+
+  <% if(errorMessages.length > 0) { %>
+    <% if(errorMessages.length > 1) {%>
+      <% if(errorMessages.length > 2) {%>
+        <div class="messages">
+          <% for (let error of errorMessages) { %>
+            <div class="alert alert-danger" role="alert" ><%= error %></div>
+          <% } %>
+        </div>
+      <% } else { %>
+        <% for (let error of errorMessages) { %>
+          <div class="alert alert-danger" role="alert" ><%= error %></div>
+        <% } %>
+      <% } %>
+    <% } else { %>
+      <div class="alert alert-danger" role="alert" ><%= errorMessages %></div>
+    <% } %>
+  <% } %>
+
+  <div class="card-body ml-3">
+    <form id="handleFrm" method="post">
+      <div class="row">
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/inputlabel', 
+            {
+              fieldName: 'ID',
+              value: id
+            }) %>
+          </div>
+        </div>
+      
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/input', 
+            {
+              type: 'text',
+              fieldName: 'User Name',
+              name: 'username',
+              value: query.username,
+              readonly: isSelf? true : false
+            }) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/input', 
+            {
+              type: 'text',
+              fieldName: 'Email',
+              name: 'email',
+              value: query.email,
+              readonly: isSelf? true : false
+            }) %>
+          </div>
+        </div>
+      
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/select', 
+            {
+              fieldName: 'Group',
+              name: 'groupId',
+              value: query.groupId,
+              valueLst: listGroupName,
+              readonly: isSelf? true : false
+            }) %>
+          </div>
+        </div>
+      </div>
+              
+      <div class="row">
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/datepicker', 
+            {
+              fieldName: 'Started Date',
+              name: 'startedDate',
+              value: query.startedDate,
+              readonly: isSelf? true : false
+            }) %>
+          </div>
+        </div>
+      
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/select', 
+            {
+              fieldName: 'Position',
+              name: 'positionId',
+              value: query.positionId,
+              valueLst: position,
+              readonly: isSelf? true : false
+            }) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/input', 
+            {
+              type: 'password',
+              fieldName: 'Password',
+              name: 'password',
+              value: query.password,
+              readonly: false
+            }) %>
+          </div>
+        </div>
+      
+        <div class="col-4">
+          <div class="row">
+            <%- include('../components/input', 
+            {
+              type: 'password',
+              fieldName: 'Password Confirmation',
+              name: 'passConfirm',
+              value: query.passConfirm,
+              readonly: false
+            }) %>
+          </div>
+        </div>
+      </div>
+
+      <p id="errorMessage" class="error-message m-bottom-10" style="display: none;"></p>
+
+      <div class="row">
+        <% if(id) {%>
+          <button class="btn-user" id="updateButton" type="submit">Update</button>
+          <button class="btn-user" id="deleteButton" type="button">Delete</button>
+        <%} else {%>
+          <button class="btn-user" id="registerButton" type="submit">Register</button>
+        <% } %>
+          <button class="btn-user" id="cancelButton" type="button">Cancel</button>
+      </div>
+    </form>
+    <!-- Input hidden -->
+    <input type="hidden" id="id" value="<%= id %>" />
+    <input type="hidden" id="loginId" value="<%= loginUser.id %>" />
+    </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Message Dialog</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="message">
+        
+        </div>
+        <div class="modal-footer">
+          <button id="cancelButton" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button id="okButton" type="button" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- contentFor('pageTitle') %>
+  UserAddEditDelete
+
+  <% if(id) {%>
+    <%- contentFor('headerTitle') %>
+    Edit
+    <script type="text/javascript" src="/asset/js/site/user/editDelete.js"></script>
+  <%} else {%>
+    <%- contentFor('headerTitle') %>
+    Add
+    <script type="text/javascript" src="/asset/js/site/user/add.js"></script>
+  <% } %>
+<% } %>

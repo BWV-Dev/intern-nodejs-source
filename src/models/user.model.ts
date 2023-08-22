@@ -1,6 +1,7 @@
 export class UserModel {
   id: number;
-  role: number;
-  userName: string;
   name: string;
+  email: string;
+  groupId: number;
+  positionId: number;
 }

@@ -68,3 +68,42 @@
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+
+header {
+    width: auto;
+}
+
+.cursor-pointer {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.button {
+    padding: 0;
+    font-weight: Normal;
+}
+
+.text-header {
+    color: black;
+}
+
+a[type="button"] {
+    text-decoration: underline;
+}
+
+.body .left-menu {
+    padding-top: 50px;
+}
+
+.left-menu-item {
+    margin-bottom: 10px;
+}
+
+.left-menu-item-first .left-menu-item-label {
+    color: #007bff !important;
+    text-decoration: underline;
+}
+
+.header-title {
+    font-size: 50px;
+}

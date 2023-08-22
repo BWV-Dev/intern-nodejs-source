@@ -46,5 +46,32 @@ export const messages = {
   BAD_REQUEST: 'BAD REQUEST',
   ECL056: 'セッションにデータが存在しません。',
   ECL057: 'データの登録に失敗しました。',
+  EBT001: (params: string) => `${params}は必須です。`,
+  EBT002: ($1: string, $2: string | number, $3: number) => `${$1}は「${$2}」文字以下で入力してください。（現在${$3}文字）`,
+  EBT004: (params: string) => `${params}は半角英数で入力してください。`,
+  EBT005: 'メールアドレスを正しく入力してください。',
+  EBT008: (params: string) => `${params}は日付を正しく入力してください。`,
+  EBT010: (params: string) => `${params}は数字を正しく入力してください。`,
+  EBT016: 'メールアドレスまたは会員IDが間違っています。',
+  EBT019: 'すでにメールアドレスは登録されています。',
+  EBT023: 'パスワードは半角英数字記号で8～20文字で入力してください。',
+  EBT025: 'パスワードには半角数字のみ、または半角英字のみの値は使用できません。',
+  EBT030: '確認用のパスワードが間違っています。',
+  EBT036: (params: string) => `${params}が取得できませんでした。`,
+  EBT044: '解約予定日は契約終了日前を指定してください。',
+  EBT086: 'すでに証明書番号は登録されています。',
+  EBT090: '変更がありません  ',
+  EBT092 : 'インポートできました。  ',
+  EBT094: (params: string) => `${params}が存在しておりません。`,
+  EBT095: 'インポートファイルの中身が正しくありません。',
+  EBT096: '登録・更新・削除処理に成功しました。',
+  EBT098: 'システムエラーになります。',
+  ErrorImport: ($1: string | number, $2: string) => `Dòng ${$1}:${$2}`
 };
 
+export const position = [
+  {id: 1, name: 'Director'},
+  {id: 2, name: 'Group Leader'},
+  {id: 3, name: 'Leader'},
+  {id: 4, name: 'Member'},
+];
