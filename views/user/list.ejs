@@ -1,0 +1,197 @@
+<% if (loginUser) { %>
+
+  <% if(eventMessage) { %>
+    <% if(eventMessage==messages.EBT096) { %>
+      <div id="myAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong><%= eventMessage %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% } else { %>
+      <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong><%= eventMessage %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% } %>
+  <% } %>
+    
+  <% if(errorMessages.length > 0) { %>
+    <% if(errorMessages.length > 1) {%>
+      <% if(errorMessages.length > 2) {%>
+        <div class="messages">
+          <% for (let error of errorMessages) { %>
+            <div class="alert alert-danger" role="alert" ><%= error %></div>
+          <% } %>
+        </div>
+      <% } else { %>
+        <% for (let error of errorMessages) { %>
+          <div class="alert alert-danger" role="alert" ><%= error %></div>
+        <% } %>
+      <% } %>
+    <% } else { %>
+      <div class="alert alert-danger" role="alert" ><%= errorMessages %></div>
+    <% } %>
+  <% } %>
+
+  <div class="card-body ml-3">
+    <div class="search-form">
+      <form id="searchFrm" name="searchFrm" method="get">
+        <div class="row">
+          <div class="col-4">
+            <div class="row">
+              <%- include('../components/input', 
+              {
+                type:'text',
+                fieldName: 'User Name',
+                name: 'username',
+                value: searchConditions.username,
+                readonly: false
+              }) %>
+            </div>
+          </div>
+        
+          <div class="col">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4">
+            <div class="row">
+              <%- include('../components/datepicker', 
+              {
+                fieldName: 'Started Date From',
+                name: 'startedDateFrom',
+                value: searchConditions.startedDateFrom,
+                readonly: false
+              }) %>
+            </div>
+          </div>
+        
+          <div class="col-4">
+            <div class="row">
+              <%- include('../components/datepicker', 
+              {
+                fieldName: 'Started Date To',
+                name: 'startedDateTo',
+                value: searchConditions.startedDateTo,
+                readonly: false
+              }) %>
+            </div>
+          </div>
+        </div>
+          
+        <div class="row">
+          <div class="col-3">
+          </div>
+          <div class="col-6">
+              <button class="btn-user" type="button" id="clearButton">Clear</button>
+              <button class="btn-user" type="submit" id="searchButton">Search</button>
+          </div>
+        </div>
+      </form>
+      <!-- hidden input -->
+      <input type="hidden" name="searchConditions" id="searchConditions" value=<%= JSON.stringify(searchConditions) %>>
+    </div>
+  </div>
+
+    <% if (users && users.length > 0 && !isDefault) {%>
+      <div class="card-body ml-3">
+        <div class="row">
+          <div class="col">
+            <div class="row my-2">
+              <div class="col">
+                <div><%= message %></span>
+              </div>
+            </div>
+              <div class="row my-2">
+                <div class="col">
+                  <% if (numOfResults > 10) { %>
+                    <div class="pagination-container">
+                      <button onclick="gotoPage(1)" <%= page==1? 'disabled' : ''%>>最初</button>
+
+                      <% if (page > 1) {%>
+                        <button onclick="gotoPage('<%- page - 1 %>')" <%= page==1? 'disabled' : ''%>>前へ</button>
+                      <%} else {%>
+                          <button onclick="gotoPage(1)" <%= page==1? 'disabled' : ''%>>前へ</button>                      
+                      <% } %>
+          
+                      <% if(pages.startPage != 1) { %>
+                        <button onclick="gotoPage('<%- pages.startPage - 1 %>')" <%= page==1? 'disabled' : ''%>>...</button>
+                      <% } %>
+
+                      <% for(let i = pages.startPage; i <= pages.endPage; i++) {%>
+                        <button onclick="gotoPage('<%= i %>')" <%= page==i? 'disabled' : ''%>><%= i %> </button>
+                      <% } %>
+
+                      <% if(pages.endPage != numOfPages) { %>
+                        <button onclick="gotoPage('<%- pages.endPage + 1 %>')" <%= page==numOfPages? 'disabled' : ''%>>...</button>
+                      <% } %>
+          
+                      <% if (page >=  numOfPages) {%>
+                        <button onclick="gotoPage('<%= numOfPages %>')" <%= page==numOfPages? 'disabled' : ''%>>次へ</button>
+                      <%} else {%>
+                          <button onclick="gotoPage('<%- page + 1 %>')" <%= page==numOfPages? 'disabled' : ''%>>次へ</button>                      
+                      <% } %>
+  
+                      <button onclick="gotoPage('<%= numOfPages %>')" <%= page==numOfPages? 'disabled' : ''%>>最終</button>
+                    </div>
+                  <% } %>
+                </div>
+            </div>
+          </div>
+      </div>
+    
+      <table class="table fixed table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Group Name</th>
+            <th scope="col">Started Date</th>
+            <th scope="col">Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let user of users) { %>
+          <tr>
+            <th scope="row">
+              <% if (loginUser.positionId == 0) { %>
+                <a href="/user/<%= user.id %>"><%= user.name %></a>
+            <% } else { %>
+                <%= user.name %>
+            <% } %>
+            </th>
+            <td><%= user.email %></td>
+            <td><%= user.group? user.group.name : '' %></td>
+            <td><%= toStringDate(user.startedDate, 'DD/MM/YYYY') %></td>
+            <td><%= userPosition(user.positionId) %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    <%} else {%>
+      <div class="card-body ml-3">
+        <div><%= message %></span>
+      </div>    
+    <%}%>
+
+    <% if (loginUser.positionId == 0) { %>
+      <div class="row">
+        <a href="/user/add"><button class="btn-user" type="submit" id="newButton">Add New</button></a>
+        <% if (numOfResults > 0 && !isDefault) { %>
+        <button class="btn-user" type="button" id="exportButton">Export CSV</button>
+        <% } %>
+      </div>
+    <% } %>
+
+    <%- contentFor('pageTitle') %>
+    User List
+
+    <%- contentFor('headerTitle') %>
+    User List
+
+      <script type="text/javascript" src="/asset/js/site/user/list.js"></script>
+<% } %>

@@ -1,10 +1,12 @@
-import {Entity, Column} from 'typeorm';
+import {Entity, Column, OneToOne, JoinColumn} from 'typeorm';
 import {Base} from './base';
+import {Group} from './group.entity';
 
-export enum UserRole {
-  ADMIN = 1,
-  // SALES = 2,
-  // STAFF = 3
+export enum UserPosition {
+  DIRECTOR = 0,
+  GROUPLEADER = 1,
+  LEADER = 2,
+  MEMBER = 3,
 }
 
 /**
@@ -14,16 +16,24 @@ export enum UserRole {
   name: 'user',
   synchronize: false,
   orderBy: {
-    id: 'DESC',
+    name: 'ASC',
+    startedDate: 'ASC',
+    id: 'ASC',
   },
 })
 export class User extends Base {
   @Column({
     type: 'varchar',
     length: 255,
-    name: 'username',
+    name: 'email',
   })
-  username: string;
+  email: string;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+  })
+  password: string;
 
   @Column({
     type: 'varchar',
@@ -33,19 +43,25 @@ export class User extends Base {
   name: string;
 
   @Column({
-    type: 'varchar',
-    length: 255,
+    type: 'bigint',
+    name: 'group_id',
   })
-  password: string;
+  groupId: number;
+
+  @Column({
+    type: 'date',
+    name: 'started_date',
+  })
+  startedDate: Date;
 
   @Column({
     type: 'enum',
-    enum: UserRole,
+    enum: UserPosition,
+    name: 'position_id',
   })
-  role: UserRole;
+  positionId: UserPosition;
 
-  @Column({
-    name: 'last_login',
-  })
-  lastLogin?: string;
+  @OneToOne(() => Group)
+  @JoinColumn({name: 'group_id'})
+  group: Group;
 }

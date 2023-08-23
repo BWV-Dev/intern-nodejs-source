@@ -1,0 +1,63 @@
+.form-control {
+    border-radius: 0%;
+    border: 1px solid black;
+    overflow-wrap: break-word;
+}
+
+.input-group-text {
+    border-radius: 0%;
+    font-size: 13px;
+    border: 1px solid black;
+    color: black;
+    width: 150px;
+}
+
+.btn-user {
+    width: 100px;
+    margin-right: 20px;
+    margin-top: 20px;
+    border: 1px solid black;
+    background-color: #e9ecef;
+}
+
+.input-group .form-control {
+    flex: 1 0 50%;
+}
+
+body {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.row {
+    align-items: normal;
+}
+
+.error-message {
+    font-size: 13px;
+    color: #f00;
+}
+
+.btn {
+    padding: 0rem 1rem;
+}
+
+.messages{
+    overflow-y: scroll;
+    height: 200px;
+    margin-bottom: 10px;
+}
+
+.center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    font-size: small;
+}
+
+.parent-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+  }

@@ -4,9 +4,9 @@
  */
 import * as logger from '../utils/logger';
 import {Request, Response} from 'express';
-import {messages} from '../constants';
 import {getCustomRepository} from 'typeorm';
 import {UserRepository} from '../repositories/user.repository';
+import {messages} from '../constants';
 
 /**
  * GET login
@@ -15,7 +15,7 @@ export const login = (req: Request, res: Response) => {
   res.render('login/index', {
     layout: 'layout/loginLayout',
     message: '',
-    username: '',
+    email: '',
   });
 };
 
@@ -24,12 +24,23 @@ export const login = (req: Request, res: Response) => {
  */
 export const auth = async (req: Request, res: Response) => {
   try {
+    // check validate on server
+    const errorMessages = req.session.message;
+    delete req.session.message;
+
+    if (errorMessages) {
+      res.render('login/index', {
+        layout: 'layout/loginLayout',
+        email: req.body.email,
+        message: errorMessages,
+      });
+    }
     // get a User repository to perform operations with User
     const userRepository = getCustomRepository(UserRepository);
 
     // load a post by a given post id
     const user = await userRepository.verifyCredentials(
-      req.body.username,
+      req.body.email,
       req.body.password,
     );
 
@@ -37,13 +48,13 @@ export const auth = async (req: Request, res: Response) => {
       // write log
       logger.logInfo(
         req,
-        `Failed login attempt: name(${req.body.username || ''})`,
+        `Failed login attempt: name(${req.body.email || ''})`,
       );
 
-      res.render('login/index', {
+      return res.render('login/index', {
         layout: 'layout/loginLayout',
-        username: req.body.username,
-        message: 'Message',
+        email: req.body.email,
+        message: messages.EBT016,
       });
     }
 
@@ -63,19 +74,16 @@ export const auth = async (req: Request, res: Response) => {
     ) {
       res.redirect(decodeURIComponent(req.query.redirect!.toString()));
     } else {
-      res.redirect('/');
+      res.redirect('/user');
     }
   } catch (err) {
     // write log
-    logger.logInfo(
-      req,
-      `Failed login attempt: name(${req.body.username || ''})`,
-    );
+    logger.logInfo(req, `Failed login attempt: name(${req.body.email || ''})`);
 
     res.render('login/index', {
       layout: 'layout/loginLayout',
-      username: req.body.username,
-      message: 'Error message',
+      email: req.body.email,
+      message: 'Test',
     });
   }
 };
@@ -89,11 +97,31 @@ export const logout = async (req: Request, res: Response) => {
   // write log
   logger.logInfo(req, 'User logged out successfully.');
 
-  let redirectURL = '/login';
-  if (req.query.redirect !== undefined) {
-    redirectURL += `?redirect=${encodeURIComponent(
-      req.query.redirect!.toString(),
-    )}`;
-  }
+  const redirectURL = '/login';
+
   res.redirect(redirectURL);
+};
+
+/**
+ * POST check account is existed
+ */
+export const isExistAccount = async (req: Request, res: Response) => {
+  const userRepository = getCustomRepository(UserRepository);
+
+  const user = await userRepository.findByEmail(req.body.email);
+
+  if (req.body.id) {
+    return user && req.body.id != user.id
+      ? res.json('Found')
+      : res.json('Not Found');
+  } else {
+    return user ? res.json('Found') : res.json('Not Found');
+  }
+};
+
+/**
+ * POST check session
+ */
+export const checkSession = async (req: Request, res: Response) => {
+  return req.user.id ? res.json('noLogout') : res.json('logout');
 };

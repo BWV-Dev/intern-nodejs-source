@@ -552,8 +552,9 @@ th, td{
 .header-username{
 	white-space: nowrap;
     text-overflow: ellipsis;
-    width: 100px;
-    /* overflow: hidden; */
+	max-width: 100px;
+    width: fit-content;
+    overflow: hidden;
     display: inline-block !important;
 }
 #collapse-header{

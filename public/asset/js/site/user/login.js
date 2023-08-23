@@ -1,8 +1,6 @@
 $(function () {
-  /**
-   * Page load
-   */
-  $(document).ready(function () {
+
+  $(document).ready( function() {
     formValidation();
   });
 
@@ -14,25 +12,56 @@ $(function () {
     $('#loginFrm').validate({
       lang: 'ja',
       errorElement: 'span',
-      errorClass: 'has-error',
-      highlight: function (element, errorClass) {
-        // $(element).parents('.inputBox').addClass(errorClass);
+      errorClass: 'mf-5 text-danger align-middle d-block',
+      onkeyup: function(element) {
+        $(element).valid();
       },
-      unhighlight: function (element, errorClass) {
-        // $(element).parents('.inputBox').removeClass(errorClass);
-      },
-      errorPlacement: function (err, el) {
-        err.addClass('help-block').appendTo(el.parent());
-        $('#errorMessage').html('');
-      },
+      onfocusout: function(element) {$(element).valid()},
       rules: {
         password: {
-          required: { name: 'パスワード' },
+          required: true
         },
-        name: {
-          required: { name: 'ユーザー名' },
+        email: {
+          required: true,
+          validEmail: true
         },
       },
+      messages: {
+        password: {
+          required: messages.EBT001('Password')
+        },
+        email: {
+          required: messages.EBT001('Email'),
+          validEmail: messages.EBT005
+        }
+      }
     });
   }
+
+  $('#email').on('focusout', function() {
+    if(!$('#email').valid()) {
+      $('#errorMessage').html('');
+    }
+  })
+
+  $('#password').on('focusout', function() {
+    if(!$('#password').valid()) {
+      $('#errorMessage').html('');
+    }
+  })
+
+  $('#loginBtn').on('click', function(e) {
+    if($('#loginFrm').valid()) {
+        e.preventDefault();
+        $.LoadingOverlay('show');
+        $('#loginFrm').submit();
+        sessionStorage.setItem('logoutStatus', 'false');
+        setTimeout(function(){
+          $.LoadingOverlay('hide'); 
+        }, 1500);
+    } else {
+      $('#email').valid();
+      $('#password').valid();
+    }
+  })
 })

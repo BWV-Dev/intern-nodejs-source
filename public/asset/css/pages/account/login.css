@@ -75,7 +75,6 @@ label.error {
   border-radius: 2px;
 }
 
-
 button {
   display: inline-block;
   overflow: hidden;
@@ -100,6 +99,10 @@ body {
   min-height: 80% !important;
 }
 
+.m-bottom-2 {
+  margin-bottom: 2px;
+}
+
 .m-bottom-10 {
   margin-bottom: 10px;
 }
@@ -118,6 +121,7 @@ body {
 
 label {
   cursor: default;
+  margin-left: 5px;
 }
 
 .help-block.has-error {
@@ -126,4 +130,11 @@ label {
 
 body {
   background-color: #fcfcfc;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.login-label {
+  font-size: 50px;
+  font-weight: 100;
+  text-align: center;
 }

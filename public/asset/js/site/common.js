@@ -10,16 +10,113 @@ var labels = {
   NEXT: '次',
   PREVIOUS: '前',
   LAST: '最終',
-  FIRST: '先頭'
+  FIRST: '先頭',
 };
 
 var messages = {
   ECL010: 'データが選択されていません。',
-  DISABLED_POPUP_INFORM: 'ポップアップの自動表示はデフォルトでブロックされています。このサイトを例外リストに追加してください。',
+  DISABLED_POPUP_INFORM:
+    'ポップアップの自動表示はデフォルトでブロックされています。このサイトを例外リストに追加してください。',
   ECL002: '{0}は「{1}」文字以下で入力してください。（現在「{2}」文字）',
   ECL009: '開始日に終了日以降の日付を入力して検索することはできません。',
   ECL021: 'ファイル形式が誤っています。CSVを選択してください。',
   ECL023: 'ファイルのサイズ制限10MBを超えています。',
+  EBT001: params => `${params}は必須です。`,
+  EBT002: ($1, $2, $3) =>
+    `${$1}は「${$2}」文字以下で入力してください。（現在${$3}文字）`,
+  EBT004: params => `${params}は半角英数で入力してください。`,
+  EBT005: 'メールアドレスを正しく入力してください。',
+  EBT008: params => `${params}は日付を正しく入力してください。`,
+  EBT016: 'メールアドレスまたは会員IDが間違っています。',
+  EBT019: 'すでにメールアドレスは登録されています。',
+  EBT023: 'パスワードは半角英数字記号で8～20文字で入力してください。',
+  EBT025:
+    'パスワードには半角数字のみ、または半角英字のみの値は使用できません。',
+  EBT030: '確認用のパスワードが間違っています。',
+  EBT033: params => `ファイル形式が誤っています。${params}を選択してください。`,
+  EBT034: params => `ファイルのサイズ制限${params}を超えています。`,
+  EBT044: '解約予定日は契約終了日前を指定してください。',
+  EBT086: 'すでに証明書番号は登録されています。',
+};
+
+// Method Validate
+function validMaxLengthMessage(fieldName, meta, element) {
+  const max = $(element).val().length;
+  return `${messages.EBT002(fieldName, meta, max)}`;
+}
+
+$.validator.addMethod('validDate', function(value) {
+  if (value == '') {
+    return true;
+  }
+  return moment(value, 'DD/MM/YYYY', true).isValid();
+});
+
+$.validator.addMethod('validEmail', function(value) {
+  if (value == '') {
+    return true;
+  }
+  const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(value);
+});
+
+$.validator.addMethod('requiredSelect', function(value) {
+  return value == '' ? false : true;
+});
+
+function checkLoginStatus() {
+  const logoutStatus = sessionStorage.getItem('logoutStatus');
+  if (logoutStatus == 'true') {
+    location.reload(true);
+  } else {
+    $.ajax({
+      type: 'post',
+      url: '/checkSession',
+      dataType: 'json',
+      success: function(data) {
+        if (data == 'logout') {
+          sessionStorage.setItem('logoutStatus', 'true');
+          window.location.reload();
+        } else {
+          sessionStorage.setItem('logoutStatus', 'false');
+        }
+      },
+    });
+  }
+}
+
+function logout() {
+  sessionStorage.setItem('logoutStatus', 'true');
+}
+
+function truncateAndWrapOptions(selectElement) {
+  const options = $(selectElement).find('option');
+  const maxWidth = 20;
+
+  options.each(function() {
+    const originalOption = $(this);
+    const text = originalOption.text();
+
+    if (text.length > maxWidth) {
+      const lines = Math.ceil(text.length / maxWidth);
+      const wrappedText = [];
+
+      for (let j = 0; j < lines; j++) {
+        wrappedText.push(text.substr(j * maxWidth, maxWidth));
+      }
+
+      const prefix = '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+      const truncatedText = wrappedText.shift();
+
+      originalOption.text(truncatedText);
+      originalOption.attr('title', text);
+
+      wrappedText.forEach(function(chunk) {
+        const wrappedOption = $('<option disabled></option>').html(prefix + chunk);
+        originalOption.after(wrappedOption);
+      });
+    }
+  });
 }
 
 /**
@@ -35,9 +132,9 @@ function back(showConfirm, unlockApi) {
     unlockApi();
   }
   window.history.back();
-  setTimeout(function () {
+  setTimeout(function() {
     if (confirm('当タブを閉じてよろしいでしょうか。')) {
-      window.close()
+      window.close();
     }
   }, 500);
 }
@@ -48,16 +145,16 @@ function pageBack(showConfirm, returnUrl, unlockApi) {
   }
   function doBack() {
     backUrl(returnUrl);
-    setTimeout(function () {
+    setTimeout(function() {
       if (confirm('当タブを閉じてよろしいでしょうか。')) {
-        window.close()
+        window.close();
       }
     }, 500);
   }
   if (typeof unlockApi === 'function') {
     unlockApi()
       .done(doBack)
-      .fail(function (err, statusText) {
+      .fail(function(err, statusText) {
         alert(statusText);
         console.log(err);
       });
@@ -66,10 +163,9 @@ function pageBack(showConfirm, returnUrl, unlockApi) {
   }
 }
 
-
 function setSelectInput(selector, defaultIndex) {
   var selectedType = $(selector).attr('value');
-  var types = $.map($(selector + ' option'), function (el) {
+  var types = $.map($(selector + ' option'), function(el) {
     return el.value;
   });
   if (types.indexOf(selectedType) < 0) {
@@ -101,20 +197,20 @@ function createAsyncExport(query) {
   $.ajax({
     url: '/web/api/newAsyncExport',
     data: query,
-    success: function () {
-      setTimeout(function () {
+    success: function() {
+      setTimeout(function() {
         if (confirm('出力依頼完了です\nファイル状況確認画面へ行きますか？')) {
-          location.href = '/fileStatus/'
+          location.href = '/fileStatus/';
         }
       }, 100);
     },
-    error: function (err) {
+    error: function(err) {
       console.error(err);
-      alert('エラーです。\n時間を置いて再度お試しください。')
+      alert('エラーです。\n時間を置いて再度お試しください。');
     },
-    complete: function () {
+    complete: function() {
       hideLoading();
-    }
+    },
   });
 }
 
@@ -137,20 +233,25 @@ function pagination(totalCount, offset, handler, isVueComponent = false) {
   if (totalCount > 0) {
     html = `<div>
   <div class="paginate-info">
-  ${ totalCount == 0 ? '検索結果はありません。' :
-        PAGINATION_INFO(
+  ${
+    totalCount == 0
+      ? '検索結果はありません。'
+      : PAGINATION_INFO(
           (offset + 1).toString(),
-          (offset + pageLine > totalCount ? totalCount : offset + pageLine).toString(),
-          totalCount.toString()
+          (offset + pageLine > totalCount
+            ? totalCount
+            : offset + pageLine
+          ).toString(),
+          totalCount.toString(),
         )
-      }
+  }
 </div>
     `;
 
     var breakPaging = Math.floor(totalCount / pageLine) > maxPageButton + 2;
     var breakCount = [];
     if (breakPaging) {
-      breakCount.push(Math.floor((maxPageButton) / PAGING_DIVISER));
+      breakCount.push(Math.floor(maxPageButton / PAGING_DIVISER));
       breakCount.push(Math.floor((maxPageButton - 1) / PAGING_DIVISER));
     }
     html += `<div class="dataTables_paginate paging_simple_numbers" style="float: right"><ul class="pagination">`;
@@ -160,43 +261,54 @@ function pagination(totalCount, offset, handler, isVueComponent = false) {
     var className = ' disabled';
     if (offset !== 0) {
       onclick = `${handler}(${0}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:0});
+      onclickParam = JSON.stringify({pageLine, offset: 0});
       className = '';
     }
     html += `<li class="paginate_button previous${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.FIRST}</a><li>`;
     onclick = '';
     if (offset !== 0) {
       onclick = `${handler}(${offset - pageLine}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:offset - pageLine});
+      onclickParam = JSON.stringify({pageLine, offset: offset - pageLine});
     }
     html += `<li class="paginate_button${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.PREVIOUS} </a><li>`;
     for (var i = 0; i < totalCount; i += pageLine) {
-      var ignoreCondition = (
-        (
-          offset > breakCount[0] * pageLine + breakCount[1] * pageLine + pageLine ||
-          i >= breakCount[0] * pageLine + breakCount[1] * pageLine * 2
-        ) && (
-          offset + pageLine < totalCount - breakCount[0] * pageLine - breakCount[1] * pageLine - pageLine ||
-          i <= totalCount - breakCount[0] * pageLine - breakCount[1] * pageLine * 2 - 1
-        )
-      ) && (
-          (i >= breakCount[0] * pageLine && i < offset - breakCount[1] * pageLine) ||
-          (i > offset + breakCount[1] * pageLine && i < totalCount - breakCount[0] * pageLine)
-        );
+      var ignoreCondition =
+        (offset >
+          breakCount[0] * pageLine + breakCount[1] * pageLine + pageLine ||
+          i >= breakCount[0] * pageLine + breakCount[1] * pageLine * 2) &&
+        (offset + pageLine <
+          totalCount -
+            breakCount[0] * pageLine -
+            breakCount[1] * pageLine -
+            pageLine ||
+          i <=
+            totalCount -
+              breakCount[0] * pageLine -
+              breakCount[1] * pageLine * 2 -
+              1) &&
+        ((i >= breakCount[0] * pageLine &&
+          i < offset - breakCount[1] * pageLine) ||
+          (i > offset + breakCount[1] * pageLine &&
+            i < totalCount - breakCount[0] * pageLine));
       if (breakPaging && ignoreCondition) {
         var temp = `<li class="paginate_button disabled"><a href="#" onclick="" >...</a></li>`;
-        if (html.slice(html.length - temp.length, html.length) !== temp) { // 追加したかどうか確認する
+        if (html.slice(html.length - temp.length, html.length) !== temp) {
+          // 追加したかどうか確認する
           html += temp;
         }
       } else {
         if (i === offset) {
           html += `
-            <li class="paginate_button active"><a href="#" onclick="">${ i / pageLine + 1}</a></li>
+            <li class="paginate_button active"><a href="#" onclick="">${i /
+              pageLine +
+              1}</a></li>
           `;
         } else {
-          onclickParam = JSON.stringify({pageLine,offset:i});
+          onclickParam = JSON.stringify({pageLine, offset: i});
           html += `
-            <li class="paginate_button"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${handler}(${i}, ${pageLine})">${i / pageLine + 1}</a></li>
+            <li class="paginate_button"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${handler}(${i}, ${pageLine})">${i /
+            pageLine +
+            1}</a></li>
           `;
         }
       }
@@ -205,19 +317,22 @@ function pagination(totalCount, offset, handler, isVueComponent = false) {
     className = ' disabled';
     if (offset + pageLine < totalCount) {
       onclick = `${handler}(${offset + pageLine}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:offset + pageLine});
+      onclickParam = JSON.stringify({pageLine, offset: offset + pageLine});
       className = '';
     }
     html += `<li class="paginate_button${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.NEXT}</a></li>`;
     onclick = '';
     if (offset + pageLine < totalCount) {
-      onclick = `${handler}(${Math.floor((totalCount - 1) / pageLine) * pageLine}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:Math.floor((totalCount - 1) / pageLine) * pageLine});
+      onclick = `${handler}(${Math.floor((totalCount - 1) / pageLine) *
+        pageLine}, ${pageLine})`;
+      onclickParam = JSON.stringify({
+        pageLine,
+        offset: Math.floor((totalCount - 1) / pageLine) * pageLine,
+      });
     }
     html += `<li class="paginate_button${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.LAST}</a></li>`;
     html += `</ul></div></div>`;
-  }
-  else {
+  } else {
     html = `
         <div class="paginate-info">
           検索結果はありません。
@@ -234,122 +349,141 @@ function showPopupHandler(event) {
   }
   if (target === undefined) {
     // handle case when user click on icon inside button
-    target = $(event.target).parent().data('target');
+    target = $(event.target)
+      .parent()
+      .data('target');
   }
-  var btnReset = $(target).find('button.btn-reset').eq(0);
-  var btnSearch = $(target).find('button.btn-search').eq(0);
+  var btnReset = $(target)
+    .find('button.btn-reset')
+    .eq(0);
+  var btnSearch = $(target)
+    .find('button.btn-search')
+    .eq(0);
   $(btnReset).click();
   // reset data table
-  setTimeout(function () {
+  setTimeout(function() {
     $(btnSearch).click();
-  })
+  });
 
   // scroll to top
-  $(target).find('div.table-container>.col').hide();
-  $(document).ajaxStop(function () {
+  $(target)
+    .find('div.table-container>.col')
+    .hide();
+  $(document).ajaxStop(function() {
     // $(target).find('div.modal-content').scrollTop(0)
-    $(target).find('div.table-container>.col').show();
-    $(target).find('.table-responsive').scrollLeft(0);
+    $(target)
+      .find('div.table-container>.col')
+      .show();
+    $(target)
+      .find('.table-responsive')
+      .scrollLeft(0);
   });
 }
 
 // 検索画面用、ページングあり
-$(document).ready(function () {
+$(document).ready(function() {
   try {
     // set companyLst
-    $.fn.common.companyLst = JSON.parse($('input[name="companyLst"').val()) || [];
+    $.fn.common.companyLst =
+      JSON.parse($('input[name="companyLst"').val()) || [];
     $.fn.common.companyLst = $.fn.common.companyLst.map(e => e.key.toString());
-  } catch(err) {}
+  } catch (err) {}
 
   // set datepicker
   $.fn.common.setDatePicker($('#calendar_right'));
-  
+
   // reset modal when reopen
-  $('body').delegate('button[data-toggle="modal"]', 'click', function (event) {
+  $('body').delegate('button[data-toggle="modal"]', 'click', function(event) {
     showPopupHandler(event);
   });
 
-  $('.pageLimitSetting select').change(function (event) {
+  $('.pageLimitSetting select').change(function(event) {
     var href = $(this).data('href') + '&pageLine=' + $(this).val();
     window.location.href = href;
   });
 
-    $('.btn-delete-many').off('click').on('click', function () {
-    if (confirm('削除してよろしいですか。')) {
-      var apiReqs = [];
-      $('.check-delete[type="checkbox"]:checked').each(function(e) {
-        apiReqs.push(
-          axios
-          .delete(`/web/api/${$(this).data('type')}`, 
-          {data: { id: $(this).data('id') },
-          headers: {'X-Requested-With': 'XMLHttpRequest'},
-        })
-        );
-      });
+  $('.btn-delete-many')
+    .off('click')
+    .on('click', function() {
+      if (confirm('削除してよろしいですか。')) {
+        var apiReqs = [];
+        $('.check-delete[type="checkbox"]:checked').each(function(e) {
+          apiReqs.push(
+            axios.delete(`/web/api/${$(this).data('type')}`, {
+              data: {id: $(this).data('id')},
+              headers: {'X-Requested-With': 'XMLHttpRequest'},
+            }),
+          );
+        });
 
-      if (apiReqs.length === 0) {
-        return;
-      }
+        if (apiReqs.length === 0) {
+          return;
+        }
 
-      axios
-      .all(apiReqs)
-      .then(axios.spread((...responses) => {
-        var failReponses = [];
+        axios
+          .all(apiReqs)
+          .then(
+            axios.spread((...responses) => {
+              var failReponses = [];
 
-        failReponses = responses.filter(r => r.data.status != 'success');
+              failReponses = responses.filter(r => r.data.status != 'success');
 
-        // If success all, then alert message and reload page
-        if (failReponses.length === 0) {
-          alert('削除処理が完了しました。');
-          window.location.href = URI(window.location.href).removeSearch('offset').removeSearch('pageLine').toString();    
-        } else {
+              // If success all, then alert message and reload page
+              if (failReponses.length === 0) {
+                alert('削除処理が完了しました。');
+                window.location.href = URI(window.location.href)
+                  .removeSearch('offset')
+                  .removeSearch('pageLine')
+                  .toString();
+              } else {
+                // If any of the apis failed, then display error messages
+                failReponses = failReponses.map(function(r) {
+                  return `id ${r.data.id} の削除に失敗しました`;
+                });
 
-          // If any of the apis failed, then display error messages
-          failReponses = failReponses.map(function(r) { 
-            return `id ${r.data.id} の削除に失敗しました`
-          });
+                $('#error-message').html('');
 
-          $('#error-message').html('');
-
-          $('#error-message').html(`<div class="alert alert-danger alert-dismissible">
+                $('#error-message')
+                  .html(`<div class="alert alert-danger alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             ${failReponses.join('<br>')}
           </div>`);
 
-          window.scrollTo(0, 0);
-        } 
-      })).catch(error => {
-        $.fn.common.commonAjaxErrorHandler(error.response);
-        // if (!error.response) {
-        //   alert(`TimeOut しています。再度ログイン後実行してください。`);
-        //   // open login popup
-        //   openLoginPopup();
-        // } else {
-        //   $.fn.common.commonAjaxErrorHandler(error.response);
-        // }
-      })
-    }
-  });
+                window.scrollTo(0, 0);
+              }
+            }),
+          )
+          .catch(error => {
+            $.fn.common.commonAjaxErrorHandler(error.response);
+            // if (!error.response) {
+            //   alert(`TimeOut しています。再度ログイン後実行してください。`);
+            //   // open login popup
+            //   openLoginPopup();
+            // } else {
+            //   $.fn.common.commonAjaxErrorHandler(error.response);
+            // }
+          });
+      }
+    });
 
-  $(window).bind("pageshow", function () {
+  $(window).bind('pageshow', function() {
     var form = $('form');
     if (form.length > 0) {
       form[0].reset();
     }
   });
-
 });
 
 var popupBlockerChecker = {
-  check: function (popup_window) {
+  check: function(popup_window) {
     var scope = this;
     if (popup_window) {
       if (/chrome/.test(navigator.userAgent.toLowerCase())) {
-        setTimeout(function () {
+        setTimeout(function() {
           scope.is_popup_blocked(scope, popup_window);
         }, 200);
       } else {
-        popup_window.onload = function () {
+        popup_window.onload = function() {
           scope.is_popup_blocked(scope, popup_window);
         };
       }
@@ -359,16 +493,18 @@ var popupBlockerChecker = {
 
     return true;
   },
-  is_popup_blocked: function (scope, popup_window) {
-    if ((popup_window.innerHeight > 0) == false) {
+  is_popup_blocked: function(scope, popup_window) {
+    if (popup_window.innerHeight > 0 == false) {
       return false;
     }
-  }
+  },
 };
 
 function hideDataTable(modal) {
   modal.find('.paginate-container>div').html(pagination(0, -1, ''));
-  var table = modal.find('.table-container:eq(0) table tbody, .paginate-container:eq(0)>.col>.btn-group');
+  var table = modal.find(
+    '.table-container:eq(0) table tbody, .paginate-container:eq(0)>.col>.btn-group',
+  );
   table.hide();
 }
 
@@ -379,12 +515,22 @@ function jsUcfirst(string) {
 //  キャンセル click event
 function eventBack(returnUrl) {
   var formChanged = false;
-  $("form input:visible, form select:visible").each(function (input) {
-    debugger
-    var name = $(this).attr("name");
-    var hdn = $("input[name='" + "hdn" + jsUcfirst(name) + "']:hidden, select[name='" + "hdn" + jsUcfirst(name) + "']:hidden").val();
+  $('form input:visible, form select:visible').each(function(input) {
+    debugger;
+    var name = $(this).attr('name');
+    var hdn = $(
+      "input[name='" +
+        'hdn' +
+        jsUcfirst(name) +
+        "']:hidden, select[name='" +
+        'hdn' +
+        jsUcfirst(name) +
+        "']:hidden",
+    ).val();
 
-    if (hdn === undefined || hdn == 'undefined') { hdn = ''; };
+    if (hdn === undefined || hdn == 'undefined') {
+      hdn = '';
+    }
     if (hdn != $(this).val()) {
       formChanged = true;
       return;
@@ -415,7 +561,7 @@ function openLoginPopup() {
   window.location.href = `/login?redirect=${URI.encode(redirect)}`;
 }
 
-$(document).ajaxError(function (e, jqXHR, ajaxSettings, thrownError) {
+$(document).ajaxError(function(e, jqXHR, ajaxSettings, thrownError) {
   console.log(e);
   if (jqXHR.status == '401') {
     alert(`TimeOut しています。再度ログイン後実行してください。`);
@@ -425,7 +571,6 @@ $(document).ajaxError(function (e, jqXHR, ajaxSettings, thrownError) {
   //   alert('エラーが発生です。\n' + jqXHR.statusText + ' (code: ' + jqXHR.status + ')');
   // }
 });
-
 
 jQuery.fn.extend({
   common: {
@@ -441,8 +586,12 @@ jQuery.fn.extend({
 
       // setup default, native browser dialog
       $(window).on('beforeunload', function(e) {
-        if (!$.fn.common.SAFE_LEAVE && form.data('originalValue') !== form.serialize()) {
-          return e.originalEvent.returnValue = '入力内容は破棄されますがよろしいですか。'; // show confirm dialog
+        if (
+          !$.fn.common.SAFE_LEAVE &&
+          form.data('originalValue') !== form.serialize()
+        ) {
+          return (e.originalEvent.returnValue =
+            '入力内容は破棄されますがよろしいですか。'); // show confirm dialog
         } // else do nothing, process with normal operation
       });
     },
@@ -451,7 +600,8 @@ jQuery.fn.extend({
       try {
         if (err.status === 408) {
           alert('TimeOut しています');
-        } else if (err.status === 401) { // Unauthorized
+        } else if (err.status === 401) {
+          // Unauthorized
           alert(`TimeOut しています。再度ログイン後実行してください。`);
           // open login popup
           openLoginPopup();
@@ -459,7 +609,13 @@ jQuery.fn.extend({
           if (err.responseJSON) {
             alert(err.responseJSON.message);
           } else {
-            alert('エラーが発生です。\n' + err.statusText + ' (code: ' + err.status + ')');
+            alert(
+              'エラーが発生です。\n' +
+                err.statusText +
+                ' (code: ' +
+                err.status +
+                ')',
+            );
           }
         }
       } catch (err) {
@@ -470,75 +626,77 @@ jQuery.fn.extend({
     setDatePicker: function(input, noValidate = false, onChange = undefined) {
       var datePicker = input.datepicker({
         language: 'ja',
-        format: "yyyy/mm/dd",
+        format: 'yyyy/mm/dd',
         autoclose: true,
-        beforeShow: function () {
-          setTimeout(function () {
+        beforeShow: function() {
+          setTimeout(function() {
             $('.ui-datepicker').css('z-index', 99999999999999);
           }, 0);
         },
         showButtonPanel: true,
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
       });
 
       if (!noValidate) {
-        datePicker.on('change', function (ev) {
+        datePicker.on('change', function(ev) {
           $(ev.target).valid();
-        })
+        });
       }
       if (typeof onChange === 'function') {
         datePicker.on('change', onChange);
       }
-    
+
       setTimeout(function() {
         input.attr('autocomplete', 'off');
       }, 300); // wait until datepicker input has been initialized
     },
     convertToCharTwoByte: function(input) {
-      input = input.replace( /[｡｢｣､･ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ]/g, function(s) {
-        return String.fromCharCode(s.charCodeAt(0) + 0xCE65);
-      });
+      input = input.replace(
+        /[｡｢｣､･ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ]/g,
+        function(s) {
+          return String.fromCharCode(s.charCodeAt(0) + 0xce65);
+        },
+      );
       return input;
     },
     convertToCharOneByte: function(input) {
-      input = input.replace( /[ァ-ン]/g, function(s) {
+      input = input.replace(/[ァ-ン]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) - 65248);
       });
       return input;
     },
-    toASCII : function (chars) {
+    toASCII: function(chars) {
       var ascii = '';
-      for(var i=0, l=chars.length; i<l; i++) {
-          var c = chars[i].charCodeAt(0);
+      for (var i = 0, l = chars.length; i < l; i++) {
+        var c = chars[i].charCodeAt(0);
 
-          // make sure we only convert half-full width char
-          if (c >= 0x30A0 && c <= 0x30FF) {
-              c = 0xFF & (c + 0x20);
-          }
+        // make sure we only convert half-full width char
+        if (c >= 0x30a0 && c <= 0x30ff) {
+          c = 0xff & (c + 0x20);
+        }
 
-          ascii += String.fromCharCode(c);
+        ascii += String.fromCharCode(c);
       }
 
       return ascii;
     },
     showLoading: function() {
-      $("#loader").show();
+      $('#loader').show();
     },
     hideLoading: function() {
-      $("#loader").hide();
+      $('#loader').hide();
     },
     timer: function(downloadToken) {
-      var attempts = 30;    // wait for maximum 20 seconds
-      var downloadTimer = window.setInterval(function () {
-        var token = $.fn.common.getCookie("downloadToken");
+      var attempts = 30; // wait for maximum 20 seconds
+      var downloadTimer = window.setInterval(function() {
+        var token = $.fn.common.getCookie('downloadToken');
         attempts--;
 
         if (token == downloadToken || attempts == 0) {
           $.fn.common.hideLoading();
           window.clearInterval(downloadTimer);
-        }
-        else {
+        } else {
         }
       }, 1000);
     },
@@ -549,13 +707,13 @@ jQuery.fn.extend({
         var pair;
         if ('' == pairs[0]) return obj;
         for (var i = 0; i < pairs.length; ++i) {
-            pair = pairs[i].split('=');
-            obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+          pair = pairs[i].split('=');
+          obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
         }
         return obj;
       }
       var parts = parse(document.cookie);
       return parts[name] === undefined ? null : parts[name];
-    }
-  }
+    },
+  },
 });

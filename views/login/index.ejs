@@ -1,19 +1,26 @@
 <link rel="stylesheet" href="/asset/css/pages/account/login.css">
 <div class="login-form">
+  <div class="login-label mb-2">Login</div>
   <form method="post" id="loginFrm">
     <div class="form-group">
-      <label class="m-bottom-10">ユーザー名</label>
-      <input type="text" class="form-control p-left-10" name="username" value=<%= username%>>
+      <label class="m-bottom-2">Email:</label>
+      <input type="text" class="form-control p-left-10" id="email" name="email" value=<%= email%>>
     </div>
     <div class="form-group">
-      <label class="m-bottom-10">パスワード</label>
-      <input type="password" class="form-control p-left-10" name="password">
+      <label class="m-bottom-2">Password:</label>
+      <input type="password" class="form-control p-left-10" id="password" name="password">
     </div>
-    <p id="errorMessage" class="error-message m-bottom-10"><%- message %></p>
-    <div class="form-group text-center m-bottom-20">
-      <button type="submit">ログイン</button>
+    <% if(message.length > 1 && typeof message !== 'string') {%>
+      <% for (const index in message) { %>
+        <p class="error-message m-bottom-10"><%= message[index] %></p>
+      <% } %>
+    <% } else { %>
+      <p id="errorMessage" class="error-message m-bottom-10"><%= message %></p>
+    <% } %>
+    <div class="form-group m-bottom-20">
+      <button class="text-center" type="submit" id="loginBtn">Login</button>
     </div>
   </form>
 </div>
 <%- contentFor('pageTitle') %>
-ログイン
+Login

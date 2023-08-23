@@ -1,0 +1,11 @@
+<div class="input-group mr-5 mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1"><%= fieldName%></span>
+    </div>
+    <select  class="form-control" id="<%= name%>" name="<%= name%>" <%= readonly? 'disabled' : ''%>>
+        <option value=""></option>
+        <% for(let i = 0; i < valueLst.length; i++) { %>
+            <option value=<%= valueLst[i].id %> <%= valueLst[i].id==value? 'selected' : '' %>><%= valueLst[i].name %></option>
+        <% } %>
+    </select>
+</div>

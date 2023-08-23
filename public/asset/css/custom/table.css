@@ -1,0 +1,25 @@
+.table.fixed {
+  table-layout: fixed;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  color: black;
+  font-size: 13px;
+  width: auto;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+a {
+  text-decoration: underline;
+}
+
+button {
+  height: 30px;
+  font-size: 13px;
+  border: 1px solid #dddddd;
+  margin: 0;
+}
+
