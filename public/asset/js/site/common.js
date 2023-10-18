@@ -416,7 +416,6 @@ function openLoginPopup() {
 }
 
 $(document).ajaxError(function (e, jqXHR, ajaxSettings, thrownError) {
-  console.log(e);
   if (jqXHR.status == '401') {
     alert(`TimeOut しています。再度ログイン後実行してください。`);
     openLoginPopup();

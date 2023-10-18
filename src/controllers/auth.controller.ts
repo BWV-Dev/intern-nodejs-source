@@ -2,11 +2,10 @@
 /**
  * Login controller
  */
-import * as logger from '../utils/logger';
 import {Request, Response} from 'express';
-import {messages} from '../constants';
-import {getCustomRepository} from 'typeorm';
 import {UserRepository} from '../repositories/user.repository';
+import * as logger from '../utils/logger';
+import {messages} from '../constants';
 
 /**
  * GET login
@@ -24,12 +23,9 @@ export const login = (req: Request, res: Response) => {
  */
 export const auth = async (req: Request, res: Response) => {
   try {
-    // get a User repository to perform operations with User
-    const userRepository = getCustomRepository(UserRepository);
-
     // load a post by a given post id
-    const user = await userRepository.verifyCredentials(
-      req.body.username,
+    const user = await UserRepository.verifyCredentials(
+      req.body.email,
       req.body.password,
     );
 
@@ -37,13 +33,11 @@ export const auth = async (req: Request, res: Response) => {
       // write log
       logger.logInfo(
         req,
-        `Failed login attempt: name(${req.body.username || ''})`,
+        `Failed login attempt: name(${req.body.email || ''})`,
       );
 
-      res.render('login/index', {
-        layout: 'layout/loginLayout',
-        username: req.body.username,
-        message: 'Message',
+      return res.status(400).json({
+        message: messages.ECL016,
       });
     }
 
@@ -61,21 +55,19 @@ export const auth = async (req: Request, res: Response) => {
       req.query.redirect.length! > 0 &&
       req.query.redirect !== '/'
     ) {
-      res.redirect(decodeURIComponent(req.query.redirect!.toString()));
+      res.status(200).json({
+        urlRedirect: decodeURIComponent(req.query.redirect!.toString()),
+      });
     } else {
-      res.redirect('/');
+      res.status(200).json('/user/list');
     }
   } catch (err) {
+    console.log('error', err);
     // write log
-    logger.logInfo(
-      req,
-      `Failed login attempt: name(${req.body.username || ''})`,
-    );
+    logger.logInfo(req, `Failed login attempt: name(${req.body.email || ''})`);
 
-    res.render('login/index', {
-      layout: 'layout/loginLayout',
-      username: req.body.username,
-      message: 'Error message',
+    return res.status(400).json({
+      message: messages.ECL016,
     });
   }
 };

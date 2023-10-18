@@ -1,0 +1,94 @@
+#nameMsg,
+#emailMsg,
+#divisionMsg,
+#enteredDateMsg,
+#enteredDateFromMsg,
+#enteredDateToMsg,
+#positionMsg,
+#passwordMsg,
+#passwordConfirmationMsg,
+#enteredDateGreaterThanMsg {
+  padding: 4px 10px;
+  margin-bottom: 0;
+  border-radius: 15px;
+  min-height: 27px;
+  display: flex;
+  align-items: center;
+  display: block;
+}
+
+/* .show-msg {
+  display: block;
+} */
+
+p#name-error,
+p#email-error,
+p#division-error,
+p#enteredDate-error,
+p#enteredDateFrom-error,
+p#enteredDateTo-error,
+p#position-error,
+p#password-error,
+p#passwordConfirmation-error,
+p#enteredDateGreaterThan-error {
+  font-size: 0.8rem;
+  color: #842029;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+/* Form invalid */
+.input-invalid,
+.input-invalid:focus {
+  border-color: #ff0000 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6) !important;
+  margin-bottom: 10px !important;
+}
+
+@media (max-width: 767px) {
+  #nameMsg,
+  #emailMsg,
+  #divisionMsg,
+  #enteredDateMsg,
+  #positionMsg,
+  #passwordMsg,
+  #passwordConfirmationMsg {
+    margin: 0 !important;
+  }
+
+  /* alert */
+  .alert.alert-success.alert-dismissible.fade.show,
+  .alert.alert-warning.alert-dismissible.fade.show {
+    margin-top: 20px !important;
+    font-size: 14px !important;
+  }
+
+  .alert.alert-danger.alert-dismissible.fade.show {
+    font-size: 14px !important;
+    padding: 12px 36px 12px 12px;
+  }
+
+  .alert.alert-danger.alert-dismissible.fade.show button {
+    padding: 6px !important;
+  }
+
+  .alert-dismissible .btn-close {
+    width: 0em !important;
+    height: 0em !important;
+  }
+}
+
+/* Validate */
+
+.green-color {
+  color: green;
+  transition: 0.2s;
+}
+
+i.fa-sharp.fa-solid.fa-circle-exclamation {
+  color: #da0909;
+}
+
+i.fa-solid.fa-circle-check {
+  color: green;
+}

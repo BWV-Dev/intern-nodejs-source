@@ -1,0 +1,177 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #e9ecef !important;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+input {
+    cursor: pointer;
+}
+
+.wrapper {
+    max-width: 350px;
+    min-height: 480px;
+    margin: 80px auto;
+    padding: 40px 30px 30px 30px;
+    background-color: #ecf0f3;
+    border-radius: 15px;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+}
+
+.logo {
+    width: 80px;
+    margin: auto;
+}
+
+.logo img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3,
+        8px 8px 15px #a7aaa7, -8px -8px 15px #fff;
+}
+
+#errorMsg {
+    position: relative;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+#errorMsg button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    padding: 0;
+}
+
+.wrapper .name {
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: 1.3px;
+    padding-left: 10px;
+    color: #555;
+}
+
+.wrapper .form-field input {
+    width: 100%;
+    display: block;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.2rem;
+    color: var(--blue-color);
+    padding: 10px 15px 10px 10px;
+    /* border: 1px solid red; */
+}
+
+#emailField, #passwordField {
+    margin: 20px 0 10px;
+}
+
+.form-field label {
+    font-weight: bold;
+    margin-left: 4px;
+    margin-bottom: 8px;
+    color: var(--blue-color);
+}
+
+.wrapper .form-field div {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+    box-sizing: border-box;
+}
+
+.wrapper .form-field .fas {
+    color: #555;
+}
+
+.wrapper .btn {
+    box-shadow: none;
+    width: 100%;
+    height: 40px;
+    background-color: #ea7042;
+    color: #fff;
+    border-radius: 25px;
+    box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+    letter-spacing: 1.3px;
+}
+
+.wrapper .btn:hover {
+    color: #fff;
+    background-color: #c76845;
+}
+
+.wrapper p {
+    font-size: 1rem;
+    color: #03a9f4;
+    margin-bottom: 0;
+}
+
+#signInBtn {
+    margin-top: 20px;
+}
+
+#signInBtn:focus-visible {
+    color: #fff !important;
+    background-color: #dd6f47 !important;
+    border-color: #ea7042 !important;
+    width: 100%;
+    height: 40px;
+    border-radius: 25px;
+    box-shadow: 3px 3px 3px #b1b1b1, -3px -3px 3px #fff;
+    letter-spacing: 1.3px;
+}
+
+/* #emailMsg, #passwordMsg {
+    background-color: #ea7042 !important;
+} */
+
+/* #emailMsg label, #passwordMsg label {
+    color: #fff !important;
+} */
+
+/* Loading */
+.modal-loading {
+	position: fixed;
+	z-index: 1000;
+	background-color: rgba(0, 0, 0, 0.5);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.modal-loading div {
+	position: inherit;
+	top: 50%;
+	left: 50%;
+	color: white;
+	width: 3rem;
+	height: 3rem;
+}
+
+@media (max-width: 380px) {
+    .wrapper {
+        margin: 30px 20px;
+        padding: 40px 15px 15px 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    div#passwordMsg, div#emailMsg {
+        margin: 10px 0 !important;
+        padding: 4px 10px !important;
+    }
+}

@@ -1,0 +1,321 @@
+/* Main */
+#main #card-userlist .card-body {
+  padding: 0px 0px 20px 0px !important;
+}
+
+#main #card-userlist .card-body .col-md-12 {
+  padding: 0px;
+  margin: 0px;
+}
+
+#main #card-userlist .card-body .col-md-6 {
+  padding-left: 9px;
+  padding-right: 9px;
+}
+
+/* Label Search Form */
+#searchForm label {
+  background-color: var(--blue-color);
+  color: #fff;
+}
+
+#searchForm input, #searchForm select {
+  background-color: whitesmoke;
+  border: none;
+  box-sizing: border-box;
+}
+
+#searchForm input:focus + .separator {
+  transform: scaleX(1) translateY(-2px);
+  opacity: 1;
+}
+
+.separator {
+  height: 2px;
+  width: calc(100% - 167px);
+  background: var(--blue-color);
+  display: block;
+  transform: scaleX(0) translateY(-2px);
+  transform-origin: 50%;
+  opacity: 0;
+  transition: all 0.15s ease-out;
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  z-index: 10;
+}
+
+.userlist__username {
+  min-width: 120px;
+  max-width: 120px;
+}
+
+.userlist__name {
+  min-width: 140px;
+  max-width: 140px;
+  border-right: 1px solid #fff;
+}
+
+.userlist__email {
+  min-width: 150px;
+  max-width: 150px;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+.userlist__divisionName {
+  min-width: 140px;
+  max-width: 140px;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+.userlist__enteredDate {
+  min-width: 130px;
+  max-width: 130px;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+.userlist__position {
+  min-width: 130px;
+  max-width: 130px;
+  border-left: 1px solid #fff;
+}
+
+.userlist__username,
+.userlist__name,
+.userlist__email,
+.userlist__divisionName,
+.userlist__enteredDate,
+.userlist__position {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+div.d-flex button#editUserBtn {
+  margin-right: 10px !important;
+}
+
+/* Datatables */
+#userTable {
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-top: 100px;
+}
+
+#userTable_paginate {
+  position: absolute;
+  top: 28px;
+  right: 0;
+}
+
+#userTable_paginate a {
+  width: 60px;
+  font-size: 14px;
+  border-radius: 10%;
+  margin-left: 10px;
+}
+
+#userListNavTop button,
+#userListNavBottom button {
+  padding: 10px 50px;
+}
+
+#userListNavBottom {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 50px 0 50px;
+}
+
+a.paginate_button.current {
+  border-radius: 10% !important;
+}
+
+a.paginate_button.current:hover {
+  background-color: var(--blue-hover-color) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  color: #fff !important;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 10%;
+  background: var(--blue-hover-color) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  background: var(--blue-hover-color) !important;
+  color: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  border: 2px solid var(--blue-color);
+  background-color: #fff !important;
+  color: var(--blue-color) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  background: #a1a5ad !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+  background: #a1a5ad !important;
+}
+
+#showTableHeader {
+  position: relative;
+}
+
+#showTableHeader thead {
+  background-color: var(--blue-color);
+  color: #fff;
+}
+
+td a {
+  color: var(--blue-color);
+  font-weight: 600;
+}
+
+td a:hover {
+  color: var(--blue-hover-color);
+  font-weight: 600;
+}
+
+/* Label input */
+label.input-group-text {
+  width: 168px;
+  font-size: 14px;
+}
+
+/* Error */
+
+
+#nameMsg,
+#enteredDateMsg,
+#enteredDateToMsg, #enteredDateFromMsg, #enteredDateGreaterThanMsg {
+  border-radius: 0 !important;
+}
+
+/* select2 */
+.select2-container--default .select2-selection--multiple {
+  border: none;
+  background-color: whitesmoke;
+  box-sizing: border-box;
+  border-radius: 0;
+  height: 45px;
+  cursor: pointer;
+}
+
+textarea.select2-search__field {
+  cursor: pointer;
+}
+
+.input-group.my-3 {
+  flex-wrap: nowrap;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: none;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+  height: 31px;
+}
+
+@media (max-width: 767px) {
+  .row.searchUserNav {
+    padding: 20px 10px 0;
+  }
+
+  .card-body hr {
+    margin: 0 0 45px !important;
+  }
+
+  div#card-userlist {
+    margin-bottom: 10px !important;
+  }
+
+  div#userListNavBottom {
+    margin: 25px 0 25px !important;
+  }
+
+  #main #card-userlist + .card {
+    margin-bottom: 0px !important;
+  }
+
+  #searchUserHeading,
+  #userListHeading {
+    padding-top: 20px;
+    font-size: 20px;
+  }
+
+  #userListNavTop {
+    margin-top: 10px !important;
+  }
+
+  div.d-flex button#editUserBtn {
+    font-size: 14px !important;
+    padding: 4px 12px !important;
+  }
+
+  table#userTable td {
+    vertical-align: middle;
+  }
+
+  div#userTableContainer.card-body {
+    padding-bottom: 0px !important;
+  }
+
+  #modal-export .modal-dialog {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-right.datepicker-orient-bottom {
+    margin-top: 70px;
+  }
+
+  #searchForm .separator {
+    bottom: 9px !important;
+  }
+
+  #userListNavTop button,
+  #userListNavBottom button {
+    padding: 10px 0px !important;
+  }
+
+  #userTable_paginate {
+    top: 21px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  #userTable {
+    margin-top: 140px !important;
+  }
+
+  #userTable_paginate {
+    top: 8px !important;
+  }
+
+  #userTable_paginate a {
+    margin-top: 10px !important;
+  }
+}
+
+@media (max-width: 377px) {
+  #userTable {
+    margin-top: 190px !important;
+  }
+
+  #userTable_paginate {
+    top: 8px !important;
+  }
+
+  #userTable_paginate a {
+    margin-top: 10px !important;
+  }
+}

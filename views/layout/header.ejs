@@ -1,0 +1,77 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+  <div class="d-flex align-items-center justify-content-between">
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+    <a
+      href="/user/list"
+      class="logo d-flex align-items-center justify-content-end"
+    >
+      <img src="assets/img/logo.png" alt="" />
+      <span class="d-none d-lg-block">Briswell</span>
+    </a>
+  </div>
+  <!-- End Logo -->
+
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+      <li class="nav-item dropdown pe-3">
+        <p class="nav-link nav-profile d-flex align-items-center pe-0 m-0">
+          <img
+            src="https://picsum.photos/536/354"
+            alt="Profile"
+            class="rounded-circle"
+            style="width: 36px; height: 36px; object-fit: cover;"
+          />
+          <span class="d-block ps-2">
+            <%= loginUser.name %>
+          </span>
+        </p>
+        <!-- End Profile Image Icon -->
+      </li>
+      <!-- End Profile Nav -->
+      <li>
+        <a
+          class=" nav-link nav-profile d-flex align-items-center pe-0"
+          href="/logout"
+          id="logoutLink"
+        >
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span class="d-block ps-2" id="logoutSpan">
+            <span>Logout</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- End Icons Navigation -->
+</header>
+<!-- End Header -->
+
+<!-- Modal Logout -->
+
+<div id="confirmLogout" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Logout</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to logout?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-blue-bwv" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary-bwv" id="logoutBtn">
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

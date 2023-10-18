@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="/asset/css/pages/userList.css" />
+
+<div class="main" id="main">
+  <div class="card" id="card-userlist">
+    <div class="card-body">
+      <h3 class="card-title pt-md-5 pb-md-3 mb-0 text-center">User List</h3>
+      <hr class="pb-4" />
+      <!-- Multi Columns Form -->
+      <form class="row g-3 mx-2" id="searchForm" method="GET">
+        <div class="col-md-12 d-md-flex">
+          <div class="col-md-6">
+            <div class="input-group my-md-3">
+              <label class="input-group-text" for="name">
+                <i class="fa-regular fa-user"></i> &nbsp; User Name
+              </label>
+              <input type="text" id="name" class="form-control" name="name" value="<%= params.name %>"
+                aria-describedby="name" data-error="#nameMsg" autocomplete="off" />
+              <span class="separator"></span>
+              <i class="fa-sharp fa-solid fa-circle-exclamation username" id="errorNameValidateIcon"
+                style="display: none;"></i>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show" style="display: none" id="nameMsg"></div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group my-3">
+              <label for="position" class="input-group-text"><i class="fa-solid fa-layer-group"></i></i> &nbsp;
+                Position</label>
+              <select name="position" id="position" class="form-control" data-error="#positionMsg" multiple></select>
+              <i class="fa-sharp fa-solid fa-circle-exclamation username" style="display: none;"
+                id="errorValidateIcon"></i>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show" style="display: none;" id="positionMsg"></div>
+          </div>
+        </div>
+
+        <div class="col-md-12 d-md-flex">
+          <div class="col-md-6">
+            <div class="input-group my-md-3" id="enteredDateFromGroup">
+              <label class="input-group-text" for="enteredDateFrom">
+                <i class="fa-regular fa-calendar-days"></i> &nbsp; Entered Date
+                From</label>
+              <input class="form-control dateselect" type="text" id="enteredDateFrom" data-provide="datepicker"
+                name="enteredDateFrom" value="<%= params.enteredDateFrom %>" autocomplete="off"
+                data-error="#enteredDateFromMsg" />
+              <span class="separator"></span>
+              <i class="fa-sharp fa-solid fa-circle-exclamation username" id="errorDateFromValidateIcon"
+                style="display: none;"></i>
+              <i class="fa-sharp fa-solid fa-circle-exclamation username" id="errorDateFrom2ValidateIcon"
+                style="display: none;"></i>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show" id="enteredDateFromMsg" style="display: none">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="input-group my-md-3">
+              <label class="input-group-text" for="enteredDateTo"><i class="fa-regular fa-calendar-days"></i> &nbsp;
+                Entered Date
+                To</label>
+              <input class="form-control" type="text" id="enteredDateTo" data-provide="datepicker" name="enteredDateTo"
+                value="<%= params.enteredDateTo %>" autocomplete="off" data-error="#enteredDateToMsg" />
+              <span class="separator"></span>
+              <i class="fa-sharp fa-solid fa-circle-exclamation username" id="errorDateToValidateIcon"
+                style="display: none;"></i>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show" id="enteredDateToMsg" style="display: none">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 d-flex justify-content-center">
+          <div class="col-md-6 text-center alert alert-danger alert-dismissible fade show"
+            id="enteredDateGreaterThanMsg" style="display: none;"></div>
+        </div>
+
+        <div class="col-md-12">
+          <div id="userListNavTop" class="text-center d-flex justify-content-around col-md-6 offset-md-6 mt-md-3">
+            <button type="button" class="btn btn-blue-bwv" id="resetSearchBtn" title="Clear Search Filter">
+              <i class="fa-solid fa-eraser"></i> Clear
+            </button>
+            <button type="button" class="btn btn-primary-bwv" id="searchBtn" title="Search">
+              <i class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- End Multi Columns Form -->
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body d-none" id="userTableContainer">
+      <!-- Table with hoverable rows -->
+      <div style="overflow-x:auto;" id="showTableHeader" class="d-none">
+        <table id="userTable" class="table table-borderless table-hover cell-border" style="width: 100%">
+          <thead>
+            <tr>
+              <th scope="col">User Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
+              <th scope="col">Created At</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!-- End Table with hoverable rows -->
+    </div>
+  </div>
+</div>
+
+<div class="modal-loading d-flex justify-content-center align-items-center d-none" id="loading">
+  <div class="spinner-grow">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<input type="text" value="<%= loginUser.role %>" id="roleValue" hidden />
+<input type="text" value="<%= loginUser.id %>" id="userId" hidden />
+
+<script src="/asset/js/lib/jquery.dataTables.min.js"></script>
+<script type="module" src="/asset/js/site/user/userList.js"></script>
+
+
+<%- contentFor('pageTitle') %> User List
