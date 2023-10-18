@@ -17,8 +17,8 @@
     "clean": "rimraf dist",
     "typeorm": "typeorm-ts-node-commonjs",
     "migrate:create": "cd ./src/migrations && typeorm migration:create",
-    "migrate:up": "SET NODE_ENV=local & npm run build && npm run typeorm migration:run -- -d ./src/dataSource.ts",
-    "migrate:revert": "SET NODE_ENV=local & npm run build && npm run typeorm migration:revert -- -d ./src/dataSource.ts"
+    "migrate:up": "npm run build && npm run typeorm migration:run -- -d ./src/dataSource.ts",
+    "migrate:revert": "npm run build && npm run typeorm migration:revert -- -d ./src/dataSource.ts"
   },
   "repository": {
     "type": "git"
@@ -57,7 +57,8 @@
     "ts-node": "^10.9.1",
     "typeorm": "^0.3.17",
     "winston": "^3.8.2",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston-daily-rotate-file": "^4.7.1",
+    "rimraf": "^5.0.5"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
