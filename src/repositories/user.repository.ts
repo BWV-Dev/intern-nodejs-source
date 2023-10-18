@@ -5,8 +5,8 @@ import {getCurrentSystemDatetime} from '../utils/common';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async verifyCredentials(username: string, password: string) {
-    const foundUser = await this.findOne({where: {username, deleted: 0}});
+  async verifyCredentials(email: string, password: string) {
+    const foundUser = await this.findOne({where: {email, deleted: 0}});
 
     if (!foundUser) {
       return null;

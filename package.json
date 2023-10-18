@@ -12,11 +12,13 @@
     "format": "npm run prettier",
     "prettier": "prettier src/*/*.ts -- --write",
     "eslint": "eslint src/*/*.ts --ignore-pattern src/migrations/*.ts --fix",
-    "build": "tsc",
+    "build": "npm run clean && tsc",
     "start": "npm run build && node -r source-map-support/register .",
-    "migrate:create": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
-    "migrate:up": "ts-node ./node_modules/typeorm/cli.js migration:run",
-    "migrate:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert"
+    "clean": "rimraf dist",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migrate:create": "cd ./src/migrations && typeorm migration:create",
+    "migrate:up": "SET NODE_ENV=local & npm run build && npm run typeorm migration:run -- -d ./src/dataSource.ts",
+    "migrate:revert": "SET NODE_ENV=local & npm run build && npm run typeorm migration:revert -- -d ./src/dataSource.ts"
   },
   "repository": {
     "type": "git"

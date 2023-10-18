@@ -8,7 +8,7 @@ import favicon from "serve-favicon";
 import errorHandler from "./middlewares/errorHandler";
 import router from "./routes";
 import * as moment from 'moment-timezone';
-import './connection';
+import './dataSource';
 
 moment.tz.setDefault('Asia/Tokyo');
 

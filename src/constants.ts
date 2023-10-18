@@ -48,3 +48,7 @@ export const messages = {
   ECL057: 'データの登録に失敗しました。',
 };
 
+export enum Status {
+  NO = 0,
+  YES = 1
+}
