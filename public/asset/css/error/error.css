@@ -1,10 +1,9 @@
 #nameMsg,
 #emailMsg,
-#divisionMsg,
 #enteredDateMsg,
 #enteredDateFromMsg,
 #enteredDateToMsg,
-#positionMsg,
+#roleMsg,
 #passwordMsg,
 #passwordConfirmationMsg,
 #enteredDateGreaterThanMsg {
@@ -23,11 +22,10 @@
 
 p#name-error,
 p#email-error,
-p#division-error,
 p#enteredDate-error,
 p#enteredDateFrom-error,
 p#enteredDateTo-error,
-p#position-error,
+p#role-error,
 p#password-error,
 p#passwordConfirmation-error,
 p#enteredDateGreaterThan-error {
@@ -48,9 +46,7 @@ p#enteredDateGreaterThan-error {
 @media (max-width: 767px) {
   #nameMsg,
   #emailMsg,
-  #divisionMsg,
-  #enteredDateMsg,
-  #positionMsg,
+  #roleMsg,
   #passwordMsg,
   #passwordConfirmationMsg {
     margin: 0 !important;

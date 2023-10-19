@@ -1,0 +1,171 @@
+<link rel="stylesheet" href="/asset/css/pages/addEditDeleteUser.css">
+
+<div id="main" class="main">
+  <div class="card">
+    <div class="card-body mb-2">
+      <h3 class="card-title pt-md-5 pb-md-3 mb-0 text-center">
+        <% if(!user.id) { %>
+          Add New User
+          <% } %>
+            <% if(user.id) { %>
+              Update User
+              <% } %>
+      </h3>
+      <hr class="pb-4" />
+      <% if(successMsg) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>
+            <%= successMsg %>
+          </strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+          <% if(error) { %>
+            <% for(let i=0; i < error.length; i++) { %>
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>
+                  <%= error[i] %>
+                </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              <% } %>
+                <% } %>
+                  <!-- Form -->
+                  <!-- Multi Columns Form -->
+                  <form class="row" id="addEditForm" <% if (user.id) { %> action="/edit/<%= user.id %>" <% } %>
+                        method="POST" novalidate="novalidate">
+                        <div class="col-md-6">
+                          <div class="input-group my-3">
+                            <label for="name" class="input-group-text"> <i class="fa-regular fa-user"></i> &nbsp; User
+                              Name</label>
+                            <input type="text" id="name" class="form-control" name="name" value="<%= user.name %>"
+                              aria-describedby="name" data-error="#nameMsg" />
+                            <i class="fa-sharp fa-solid fa-circle-exclamation username" style="display: none;"
+                              id="errorValidateIcon"></i>
+                            <span class="separator"></span>
+                          </div>
+                          <div class="alert alert-danger alert-dismissible fade show" style="display: none;"
+                            id="nameMsg"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="input-group my-3">
+                            <label for="email" class="input-group-text"> <i class="fa-regular fa-envelope"></i> &nbsp;
+                              Email</label>
+                            <input type="text" id="email" class="form-control" name="email" value="<%= user.email %>"
+                              aria-describedby="email" data-error="#emailMsg" />
+                            <i class="fa-sharp fa-solid fa-circle-exclamation username" style="display: none;"
+                              id="errorValidateIcon"></i>
+                            <span class="separator"></span>
+                          </div>
+                          <div class="alert alert-danger alert-dismissible fade show" style="display: none;"
+                            id="emailMsg"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="input-group my-3">
+                            <label for="role" class="input-group-text"><i class="fa-solid fa-layer-group"></i></i>
+                              &nbsp; Role</label>
+                            <select name="role" id="role" class="form-control" data-error="#roleMsg" >
+                              <option value=""></option>
+                              <option value="0" <%=user?.role==0? "selected" : "" %> >Admin
+                              </option>
+                              <option value="1" <%=user?.role==1? "selected" : "" %> >Manager
+                              </option>
+                              <option value="2" <%=user?.role==2? "selected" : "" %> >User
+                              </option>
+                            </select>
+                            <i class="fa-sharp fa-solid fa-circle-exclamation username" style="display: none;"
+                              id="errorValidateIcon"></i>
+                          </div>
+                          <div class="alert alert-danger alert-dismissible fade show" style="display: none;"
+                            id="roleMsg"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="input-group my-3">
+                            <label class="input-group-text" for="password"><i class="fa-solid fa-key"></i> &nbsp;
+                              Password</label>
+                            <input class="form-control" id="password" type="password" name="password" value=""
+                              data-error="#passwordMsg" autocomplete="off" />
+                            <i class="fa-sharp fa-solid fa-circle-exclamation username" style="display: none;"
+                              id="errorValidateIcon"></i>
+                            <span class="separator"></span>
+                          </div>
+                          <div class="alert alert-danger alert-dismissible fade show" style="display: none;"
+                            id="passwordMsg"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="input-group my-3">
+                            <label class="input-group-text" for="passwordConfirmation"><i class="fa-solid fa-key"></i>
+                              &nbsp; Password Confirmation</label>
+                            <input class="form-control" id="passwordConfirmation" type="password"
+                              name="passwordConfirmation" value="<%= user.passwordConfirmation %>"
+                              data-error="#passwordConfirmationMsg" autocomplete="off" />
+                            <i class="fa-sharp fa-solid fa-circle-exclamation username" style="display: none;"
+                              id="errorValidateIcon"></i>
+                            <span class="separator"></span>
+                          </div>
+                          <div class="alert alert-danger alert-dismissible fade show" style="display: none;"
+                            id="passwordConfirmationMsg">
+                          </div>
+                        </div>
+
+                        <div class="text-center d-flex justify-content-around mt-md-3">
+                          <% if(!user.id) { %>
+                            <button class="btn btn-blue-bwv" id="registerBtn">
+                              <i class="fa-solid fa-plus"></i> Register
+                            </button>
+                            <% } %>
+                              <% if(user.id) { %>
+                                <button class="btn btn-blue-bwv" id="updateBtn">
+                                  <i class="fa-solid fa-floppy-disk"></i> Update
+                                </button>
+
+                                <button class="btn btn-red-bwv" data-id="<%= user.id %>" id="deleteBtn">
+                                  <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                                <% } %>
+                                  <button class="btn btn-primary-bwv" id="cancelBtn">
+                                    <i class="fa-solid fa-backward"></i> Cancel
+                                  </button>
+                        </div>
+                  </form>
+
+                  <input type="text" value="<%= user.id %>" id="checkAddOrEdit" hidden />
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="addUpdateDeleteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="audm-heading"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-audm-text" class="m-0"></p>
+      </div>
+      <div class="modal-footer" id="modalDelete">
+        <button type="button" class="btn btn-blue-bwv" data-bs-dismiss="modal" id="cancelDeleteBtn">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary-bwv d-none" id="confirmDelete">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-loading d-flex justify-content-center align-items-center d-none" id="loading">
+  <div class="spinner-grow">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<input type="text" value="<%= loginUser.id %>" id="loginUserId" hidden />
+<script type="module" src="/asset/js/site/user/addEditDeleteUser.js"></script>
+
+<%- contentFor('pageTitle') %>
+  <% if (user.id) { %> Update User <% } %>
+      <% if (!user.id) { %> Add New User <% } %>

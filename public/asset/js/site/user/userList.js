@@ -314,13 +314,9 @@ $(document).ready(function() {
         {
           data: null,
           render: function(data) {
-            if ($('#positionIdLoginUser').val() == 0) {
-              return `<a href="#">${escape(
+              return `<a href="/user/update/${data.id}">${escape(
                 data.name,
               )}</a>`;
-            } else {
-              return escape(data.name);
-            }
           },
         },
         {
@@ -424,11 +420,6 @@ $(document).ready(function() {
       $('#searchBtn').click();
     }
   });
-
-  if ($('#positionIdLoginUser').val() != 0) {
-    $('#userTableContainer').addClass('d-none');
-    $('#userListNavBottom').addClass('d-none');
-  }
 
   // add new btn
   $(document).on('click', '#addNewBtn', function() {
