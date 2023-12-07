@@ -3,35 +3,11 @@ import {
   hideLoading,
   disabledButton,
   enableButton,
-  checkMaxLength,
 } from './common.js';
 import {messages} from '../constants.js';
 
-// add method check valid email address
-$.validator.addMethod('emailValid', function(value, element) {
-  return (
-    this.optional(element) ||
-    /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i.test(value)
-  );
-});
 
 $(document).ready(function() {
-  // remove error messages and check valid when change input
-  $('input#email').on('input', function() {
-    $('button.btn-close').click();
-    checkMaxLength('checkEmailMaxLength255', 255, 'Email', 'input#email' )
-  });
-
-
-  // remove error messages and check valid when change input
-  $('input#password').on('input', function() {
-    $('button.btn-close').click();
-
-    // validate password length
-    checkMaxLength('checkPasswordMaxLength25', 20, 'Password', 'input#password' )
-
-  });
-
   // validate when focusout
   $('input#email').on('focusout', function() {
     $('input#email').valid();
@@ -48,18 +24,14 @@ $(document).ready(function() {
     rules: {
       email: {
         required: true,
-        emailValid: true,
-        checkEmailMaxLength255: true,
       },
       password: {
         required: true,
-        checkPasswordMaxLength25: true,
       },
     },
     messages: {
       email: {
         required: messages.ECL001('Email'),
-        emailValid: messages.ECL005,
       },
       password: {
         required: messages.ECL001('Password'),

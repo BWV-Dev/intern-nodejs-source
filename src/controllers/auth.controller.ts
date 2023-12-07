@@ -59,7 +59,7 @@ export const auth = async (req: Request, res: Response) => {
         urlRedirect: decodeURIComponent(req.query.redirect!.toString()),
       });
     } else {
-      res.status(200).json('/user/list');
+      res.status(200).json('/');
     }
   } catch (err) {
     console.log('error', err);

@@ -68,30 +68,6 @@ export class User1697288547770 implements MigrationInterface {
       }),
       true,
     );
-
-    const userList = [];
-
-    for (let i = 1; i < 10000; i++) {
-      userList.push({
-        name: `User ${i}`,
-        email: `user${i}@example.com`,
-        password:
-          '$2y$10$PyQOAjvb76vF.vsPiC9yCuE07vz6P/7jjsXCNKoAvmPv4XZ0PHJAu',
-        role: `${Math.floor(Math.random() * 3) + 1}`,
-        deleted: 0,
-        lastLogin: new Date(),
-        createdBy: 'Admin',
-        updatedBy: 'Admin',
-      });
-    }
-
-    // Create seed data
-    await queryRunner.manager
-      .createQueryBuilder()
-      .insert()
-      .into('user')
-      .values(userList)
-      .execute();
   }
   public async down(queryRunner: QueryRunner): Promise<void> {
     // Drop the table
