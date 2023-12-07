@@ -3,8 +3,8 @@
  * ユーザーミドルウェア
  */
 import * as configEnv from 'dotenv';
-import {NextFunction, Request, Response} from 'express';
-import {UNAUTHORIZED} from 'http-status';
+import { NextFunction, Request, Response } from 'express';
+import { UNAUTHORIZED } from 'http-status';
 
 configEnv.config();
 
@@ -26,7 +26,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     res.locals.logoutRedirect = {};
 
     if (req.xhr) {
-      res.status(UNAUTHORIZED).json({success: false, message: 'unauthorized'});
+      res
+        .status(UNAUTHORIZED)
+        .json({ success: false, message: 'unauthorized' });
     } else {
       next();
     }

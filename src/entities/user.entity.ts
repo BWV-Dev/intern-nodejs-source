@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {Column, Entity} from 'typeorm';
-import {Status} from '../constants';
-import {Base} from './base';
+import { Column, Entity } from 'typeorm';
+import { Status } from '../constants';
+import { Base } from './base';
 export enum UserRole {
   ADMIN = 0,
   MANAGER = 1,

@@ -1,5 +1,5 @@
 import winston from '../winston';
-import {Request} from 'express';
+import { Request } from 'express';
 import requestIp from 'request-ip';
 
 /**

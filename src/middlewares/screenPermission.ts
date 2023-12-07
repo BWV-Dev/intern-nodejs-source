@@ -1,5 +1,5 @@
-import {Request, Response, NextFunction} from 'express';
-import {titleMessageError, messages} from '../constants';
+import { Request, Response, NextFunction } from 'express';
+import { titleMessageError, messages } from '../constants';
 import * as logger from '../utils/logger';
 
 /**

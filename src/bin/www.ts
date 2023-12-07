@@ -6,7 +6,7 @@
 
 import logger from '../winston';
 import * as http from 'http';
-import {AddressInfo} from 'net';
+import { AddressInfo } from 'net';
 import app from '../server';
 
 /**

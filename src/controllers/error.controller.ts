@@ -1,8 +1,8 @@
 /**
  * Error Controller
  */
-import {Request, Response} from 'express';
-import {titleMessageError, messages} from '../constants';
+import { Request, Response } from 'express';
+import { titleMessageError, messages } from '../constants';
 
 export const notFound = (req: Request, res: Response) => {
   if (req.user.id !== undefined) {

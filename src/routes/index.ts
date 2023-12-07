@@ -1,8 +1,8 @@
 /**
  * Main Router
  */
-import {Router} from 'express';
-import {notFound as notFoundHandler} from '../controllers/error.controller';
+import { Router } from 'express';
+import { notFound as notFoundHandler } from '../controllers/error.controller';
 import auth from '../middlewares/authentication';
 import sessionMiddleWare from '../middlewares/session';
 import userMiddleware from '../middlewares/user';

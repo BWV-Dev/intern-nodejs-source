@@ -3,7 +3,7 @@
  * Error Handler Middleware
  */
 // import * as createDebug from 'debug';
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import {
   BAD_REQUEST,
   NOT_FOUND,
@@ -11,7 +11,7 @@ import {
   INTERNAL_SERVER_ERROR,
   FORBIDDEN,
 } from 'http-status';
-import {titleMessageError, messages} from '../constants';
+import { titleMessageError, messages } from '../constants';
 import * as logger from '../utils/logger';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

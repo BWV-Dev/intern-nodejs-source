@@ -2,8 +2,8 @@
  * Authentication Middlewares
  */
 import * as logger from '../utils/logger';
-import {UNAUTHORIZED} from 'http-status';
-import {NextFunction, Request, Response} from 'express';
+import { UNAUTHORIZED } from 'http-status';
+import { NextFunction, Request, Response } from 'express';
 
 /**
  * If the user is not authorized, then redirect to login page

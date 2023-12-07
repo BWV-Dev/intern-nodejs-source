@@ -2,10 +2,10 @@
 /**
  * Login controller
  */
-import {Request, Response} from 'express';
-import {UserRepository} from '../repositories/user.repository';
+import { Request, Response } from 'express';
+import { UserRepository } from '../repositories/user.repository';
 import * as logger from '../utils/logger';
-import {messages} from '../constants';
+import { messages } from '../constants';
 
 /**
  * GET login
