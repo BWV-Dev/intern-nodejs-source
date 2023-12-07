@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
- *
- * @param someObj
- * @param replaceValue
- */
-
-/**
  * TODO
  * @param someObj
  * @param replaceValue

@@ -1,17 +1,6 @@
 var MIN_TRUNCATE_LENGTH = 20;
-var PAGE_LINE = 10;
-var MAX_PAGE_BUTTON = 5;
 var ACCEPT_IMAGE_TYPE = ['image/png', 'image/jpeg', 'image/gif'];
 var ACCEPT_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
-function PAGINATION_INFO(START, END, TOTAL) {
-  return `${TOTAL} 件中 ${START} から ${END} まで表示`;
-}
-var labels = {
-  NEXT: '次',
-  PREVIOUS: '前',
-  LAST: '最終',
-  FIRST: '先頭'
-};
 
 var messages = {
   ECL010: 'データが選択されていません。',
@@ -65,7 +54,6 @@ function pageBack(showConfirm, returnUrl, unlockApi) {
     doBack();
   }
 }
-
 
 function setSelectInput(selector, defaultIndex) {
   var selectedType = $(selector).attr('value');
@@ -125,106 +113,6 @@ function truncate(string, length) {
   } else {
     return string;
   }
-}
-
-function pagination(totalCount, offset, handler, isVueComponent = false) {
-  var PAGING_DIVISER = 4;
-  var pageLine = PAGE_LINE;
-  var maxPageButton = MAX_PAGE_BUTTON;
-  var clickEvent = isVueComponent ? '@click.native' : 'onclick';
-  var html = '';
-
-  if (totalCount > 0) {
-    html = `<div>
-  <div class="paginate-info">
-  ${ totalCount == 0 ? '検索結果はありません。' :
-        PAGINATION_INFO(
-          (offset + 1).toString(),
-          (offset + pageLine > totalCount ? totalCount : offset + pageLine).toString(),
-          totalCount.toString()
-        )
-      }
-</div>
-    `;
-
-    var breakPaging = Math.floor(totalCount / pageLine) > maxPageButton + 2;
-    var breakCount = [];
-    if (breakPaging) {
-      breakCount.push(Math.floor((maxPageButton) / PAGING_DIVISER));
-      breakCount.push(Math.floor((maxPageButton - 1) / PAGING_DIVISER));
-    }
-    html += `<div class="dataTables_paginate paging_simple_numbers" style="float: right"><ul class="pagination">`;
-    var onclickParam = '';
-    console.log(onclickParam);
-    var onclick = '';
-    var className = ' disabled';
-    if (offset !== 0) {
-      onclick = `${handler}(${0}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:0});
-      className = '';
-    }
-    html += `<li class="paginate_button previous${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.FIRST}</a><li>`;
-    onclick = '';
-    if (offset !== 0) {
-      onclick = `${handler}(${offset - pageLine}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:offset - pageLine});
-    }
-    html += `<li class="paginate_button${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.PREVIOUS} </a><li>`;
-    for (var i = 0; i < totalCount; i += pageLine) {
-      var ignoreCondition = (
-        (
-          offset > breakCount[0] * pageLine + breakCount[1] * pageLine + pageLine ||
-          i >= breakCount[0] * pageLine + breakCount[1] * pageLine * 2
-        ) && (
-          offset + pageLine < totalCount - breakCount[0] * pageLine - breakCount[1] * pageLine - pageLine ||
-          i <= totalCount - breakCount[0] * pageLine - breakCount[1] * pageLine * 2 - 1
-        )
-      ) && (
-          (i >= breakCount[0] * pageLine && i < offset - breakCount[1] * pageLine) ||
-          (i > offset + breakCount[1] * pageLine && i < totalCount - breakCount[0] * pageLine)
-        );
-      if (breakPaging && ignoreCondition) {
-        var temp = `<li class="paginate_button disabled"><a href="#" onclick="" >...</a></li>`;
-        if (html.slice(html.length - temp.length, html.length) !== temp) { // 追加したかどうか確認する
-          html += temp;
-        }
-      } else {
-        if (i === offset) {
-          html += `
-            <li class="paginate_button active"><a href="#" onclick="">${ i / pageLine + 1}</a></li>
-          `;
-        } else {
-          onclickParam = JSON.stringify({pageLine,offset:i});
-          html += `
-            <li class="paginate_button"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${handler}(${i}, ${pageLine})">${i / pageLine + 1}</a></li>
-          `;
-        }
-      }
-    }
-    onclick = '';
-    className = ' disabled';
-    if (offset + pageLine < totalCount) {
-      onclick = `${handler}(${offset + pageLine}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:offset + pageLine});
-      className = '';
-    }
-    html += `<li class="paginate_button${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.NEXT}</a></li>`;
-    onclick = '';
-    if (offset + pageLine < totalCount) {
-      onclick = `${handler}(${Math.floor((totalCount - 1) / pageLine) * pageLine}, ${pageLine})`;
-      onclickParam = JSON.stringify({pageLine,offset:Math.floor((totalCount - 1) / pageLine) * pageLine});
-    }
-    html += `<li class="paginate_button${className}"><a href="#" onclickParam='${onclickParam}' ${clickEvent}="${onclick}">${labels.LAST}</a></li>`;
-    html += `</ul></div></div>`;
-  }
-  else {
-    html = `
-        <div class="paginate-info">
-          検索結果はありません。
-        </div>
-      `;
-  }
-  return html;
 }
 
 function showPopupHandler(event) {
